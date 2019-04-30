@@ -9,6 +9,816 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <app-root></app-root>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/combine/gh/ahmst/basis@1.32/grid.css,gh/ahmst/basis@1.32/classes.css'/>
+<script src="https://unpkg.com/tippy.js@3/dist/tippy.all.min.js" defer=""></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+
+
+<style>
+    body {margin:0 15px;}
+#pactometro2019, #pactometro2019 * {box-sizing: border-box;user-select: none;-webkit-touch-callout: none !important;-webkit-user-select: none !important;}
+#pactometro2019 {width: 100%; max-width: 1280px;margin: 0 auto; background-image: url('https://www.antena3.com/newa3flash/modulos_blancos/lasexta/pactometro2019/fondo_pactometro.jpg'); background-repeat: no-repeat;}
+#pactometro2019 > #visor-parlamento {width: 100%;position: relative;height: 310px;margin-bottom: 20px;}
+#pactometro2019 > #visor-parlamento #mayoria {position: absolute; width: 30px;top: -10px; left:0; right: 0; margin: auto; height: 170px;z-index:99;}
+#pactometro2019:not(.pactos) > #visor-parlamento #mayoria {pointer-events: none;}
+#pactometro2019 > #visor-parlamento #mayoria:before {position: absolute; content:""; height: 0px; width:1px; top:0; bottom:0;left:0; right:0; margin: auto; background-color:#1d1d1d; z-index:9;transition: all .5s ease;}
+#pactometro2019 > #visor-parlamento canvas {max-width: 620px;max-height: 320px;position: absolute; left: 0; right: 0; margin: auto;}
+#pactometro2019 > #visor-parlamento .recuento {position: absolute; left: 0; right: 0; margin: auto; bottom: 0px; width: 280px;text-align: center;transition: all .3s ease;}
+#pactometro2019 > #visor-parlamento .recuento #viabilidad {padding-top: 12px;align-items: flex-end;transition: .3s ease all;height: 33px; transition: all .4s ease; transition-delay: .3s;}
+#pactometro2019 > #visor-parlamento .recuento #viabilidad.off {height: 0; }
+#pactometro2019 > #visor-parlamento .recuento #viabilidad > div {flex-direction:unset;transition: .3s ease all;position: absolute; left: 0; right: 0;margin: auto; }
+#pactometro2019 > #visor-parlamento .recuento #viabilidad > div.off {opacity: 0;transition-delay:0;}
+#pactometro2019 > #visor-parlamento .recuento #viabilidad > div.on {opacity:1;transition: 1s ease all;transition-delay: .4s;}
+#pactometro2019 > #visor-parlamento .recuento #viabilidad span {font-weight: 500;}
+#pactometro2019 > #visor-parlamento .recuento #viabilidad #exito span {color:#709d1a;}
+#pactometro2019 > #visor-parlamento .recuento #viabilidad #fracaso span {color:#E04F5F;}
+#pactometro2019 > #visor-parlamento .recuento #viabilidad img {width: 15px; height: 15px;margin-right: 6px;}
+#pactometro2019 > #visor-parlamento .recuento #avance {width: 190px;border-radius: 100px;border: 1px solid #dedede;overflow:hidden; height: 12px;margin: 0 auto;margin-top: 13px; position: relative; transition: .7s ease;}
+#pactometro2019 > #visor-parlamento .recuento #avance #bar {width:0%; border-radius: 100px;top:0; bottom: 0; margin: auto;background-color: #e1e1e1;; transition: all .5s ease;content:""; position: absolute; }
+@keyframes animate-stripes {0% { background-position: 0 0;} 100% {background-position: 60px 0;}}
+#pactometro2019 > #visor-parlamento .recuento #avance #bar {background-size: 15px 15px;background-image: linear-gradient( 135deg, rgba(255, 255, 255, .25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .25) 50%, rgba(255, 255, 255, .25) 75%, transparent 75%, transparent); animation: animate-stripes 0.6s linear infinite; animation-duration: 1.25s; animation-direction:normal;}
+    #pactometro2019.completado > #visor-parlamento .recuento #avance #bar {background-color: #709d1a;}
+    #pactometro2019.completado > #visor-parlamento .recuento #avance {border-color: #709d1a;}
+    #pactometro2019.completado.pactos > #visor-parlamento .recuento #avance {border-color: transparent;}
+    #pactometro2019 > #visor-parlamento #recuento #avance #bar:before {position: absolute; left: 0; top:0; width:100%; height: 100%;background-color: #709d1a;opacity:0; z-index:9; transition: all .3s ease;content:"";}
+    #pactometro2019.completado > #visor-parlamento #recuento #avance #bar:before {opacity: 1; transition: all .8s ease;transition-delay: .3s;}
+#pactometro2019 > #visor-parlamento .recuento span {font-family: "roboto"; font-weight: 300;}
+#pactometro2019 > #visor-parlamento .recuento .diputados-texto{font-size: 20px;}
+#pactometro2019 > #visor-parlamento .recuento > span:first-child {font-size: 50px;display:block;width: 100%;}
+#pactometro2019 > #visor-parlamento .recuento .diputados-totales {font-size: 20px;width: 100%;display:block;font-weight: 400;}
+#pactometro2019 > #visor-parlamento .recuento .diputados-totales .mas:last-child {display:none;}
+#pactometro2019 > #visor-parlamento .recuento .diputados-totales span {font-weight: 400;}
+#pactometro2019 > #visor-parlamento #recuento2 .diputados-totales {font-size: 17px;margin-top: 2px;}
+#pactometro2019 > .paso {position: relative; width: 100%;padding: 0 0 30px 0;overflow:hidden;}
+#pactometro2019 > .paso:before {border-top: 1px dashed #737373;width:100%; content:"";height: 10px; left:0; top: 13px; position: absolute;}
+#pactometro2019 > .paso h3 {font-family: "roboto condensed"; margin: 0 auto;margin-bottom: 12px;color: #1d1d1d;overflow:hidden;font-weight: 600; text-align: center; top: -13px;text-transform: uppercase;font-size: 21px; }
+    #pactometro2019 > #paso1 h3 {width: 298px;}
+    #pactometro2019 > #paso2 h3 {width: 208px;}
+    #pactometro2019:not(.completado) > #paso2 {opacity: 0.3}
+
+#pactometro2019 > .paso h3 > span:first-child {background-color: #1d1d1d; top:0px; position: absolute; left: 0; right: 0; margin: auto; border-radius: 100px;color: white; width: 24px; height: 24px; overflow:hidden;font-size: 15px;line-height: 26px;}
+#pactometro2019 > .paso h3 > span {display:inline-block;width: 100%; }
+#pactometro2019 > .paso h3 > span:last-of-type {line-height: 20px; margin-top: 39px;}
+#pactometro2019 > #paso2 {margin-top: 20px;transition: all .3s ease; border-bottom: 1px solid #eaeaea;}
+#pactometro2019 > #paso1 {margin-top: 42px;overflow:hidden; transition: all .7s ease; height: 340px;}
+#pactometro2019 > #paso1 #boton-reset {position: absolute; right: 0; transition: opacity .5s ease;top: 85px;font-family: "roboto condensed";border: 1px solid #1d1d1d; padding: 7px 10px 5px 10px;}
+#pactometro2019 > #paso1 #boton-reset:hover {background-color: #f3f3f3; border-color:#f3f3f3; cursor:pointer;}
+#pactometro2019 > #paso1.off {height: 58px; opacity: 0.2; cursor:pointer;}
+#pactometro2019 > #paso1.off #boton-reset {opacity:0;}
+#pactometro2019 > #paso1.off:hover {opacity: 1;}
+#pactometro2019 > #paso1 p {max-width: 600px;}
+#pactometro2019 > #paso1 p span.reset {display:inline-block; border-bottom: 1px dotted #1d1d1d; cursor: pointer;}
+#pactometro2019 > .paso p {font-size: 15px; overflow:hidden;transition: all .3s ease;font-family: "roboto"; text-align: center;margin: 0 auto; line-height: 23px;}
+#pactometro2019 > .paso p .button {background-color: #1d1d1d;cursor:pointer;margin-top:10px; color: white; transition: all .3s ease; padding: 10px 28px 8px 28px; display: inline-block; text-transform: uppercase; font-family: "roboto condensed"}
+#pactometro2019 > .paso p .button:hover {padding-left: 40px; padding-right: 40px;}
+#pactometro2019 > #paso2 > #mensajes p {position: absolute;left:0;right:0;margin:auto;width: 100%; max-width: 500px;}
+    #pactometro2019:not(.completado) > #paso2 > #mensajes p.completado {opacity: 0; pointer-events: none;}
+    #pactometro2019:not(.pactos) > #visor-parlamento #recuento2 {opacity: 0;pointer-events: none;}
+    #pactometro2019 > #paso2 > #mensajes {height: 100px;transition: all .2s ease;overflow:hidden; margin-bottom: 35px;}
+    #pactometro2019.completado > #paso2 > #mensajes p.completado {opacity: 1; }
+    #pactometro2019.completado > #paso2 > #mensajes p.completado.pactos {opacity: 0; pointer-events: none; }
+    #pactometro2019.completado > #paso2 > #mensajes p.no-completado {opacity: 0; pointer-events: none;}
+    #pactometro2019.completado.pactos > #paso2 > #mensajes {height: 47px;}
+    #pactometro2019.completado.pactos > #paso2 > #mensajes p.completado.pactos {opacity: 1;}
+    #pactometro2019.completado.pactos > #paso2 > #mensajes p.completado:not(.pactos) {opacity: 0;pointer-events: none;}
+    #pactometro2019.completado.pactos > #visor-parlamento #recuento #avance {width:12px;}
+    #pactometro2019.completado.pactos > #visor-parlamento #recuento {opacity: 0; transition-delay: .7s;}
+    #pactometro2019.completado.pactos > #visor-parlamento #recuento2 {opacity: 1; transition: .7s ease all; transition-delay: 1s; }
+    #pactometro2019 > #visor-parlamento #recuento2 {bottom: -2px;}
+    #pactometro2019.completado.pactos > #paso2 ul.listapartidos li .nombre-partido:not(.nombre-partido-short) {display:none;}
+    #pactometro2019.completado.pactos > #visor-parlamento #mayoria:before {height:110%; transition-delay: .7s;}
+
+    #pactometro2019 > #paso2 > .listapartidos {overflow:hidden;transition: all .2s ease;}
+    #pactometro2019:not(.completado) > #paso2 {opacity:0.2 !important;height: 170px;}
+    #pactometro2019:not(.pactos) > #paso2 {opacity:1;height: 170px;}
+    #pactometro2019.completado.pactos > #paso2 > .listapartidos {height: 76px;transition-delay: .3s; }
+    #pactometro2019:not(.pactos) > #paso2 ul.listapartidos {opacity:0;}
+    #pactometro2019.pactos > #paso2 ul.listapartidos {opacity:1; transition-delay: .3s;}
+
+#pactometro2019 > .paso ul.listapartidos{margin:0; padding:0;display:block; overflow:hidden; float:unset;}
+#pactometro2019 > #paso1 ul.listapartidos {margin-top: 30px;}
+#pactometro2019 > .paso ul.listapartidos li{position: relative;transition: all .2s ease;padding: 10px 0;padding-bottom:15px;margin-top:10px; opacity:0;list-style:none;float:left;color:#fff;font-weight:700;position:relative;overflow:hidden}
+#pactometro2019 > .paso ul.listapartidos li.shown {opacity:1;margin-top:0;}
+#pactometro2019 > .paso ul.listapartidos li span.nombre-partido, #pactometro2019 > .paso ul.listapartidos li span.nombre-partido-short{font-size:15px; margin-bottom: 4px;}
+#pactometro2019 > .paso ul.listapartidos li span{text-align:center;width:100%;display:block;color:#1d1d1d}
+#pactometro2019 > .paso ul.listapartidos li span.diputados-partido{font-weight:300;font-size:31px}
+#pactometro2019 > .paso ul.listapartidos li span.boton {position: absolute; outline: none !important;transition: all .1s ease;top: 40px; font-size: 19px; font-weight: 300;border-radius: 100px;width: 27px; height: 27px; background-color: white; color: grey; border: 2px solid #cecece;}
+#pactometro2019 > .paso ul.listapartidos li span.boton:before {position: absolute;  left: -12px; top: -12px; width: calc(100% + 24px); content: "";z-index: 999;height: calc(100% + 24px);}
+#pactometro2019 > .paso ul.listapartidos li span.boton:hover {border-color: #636363; color: #1d1d1d; cursor: pointer;}
+#pactometro2019 > .paso ul.listapartidos li span.boton:active {border-color: #1d1d1d; background-color: #1d1d1d; color: white;}
+#pactometro2019 > .paso ul.listapartidos li span.boton.sumar {right: 15px; }
+#pactometro2019 > .paso ul.listapartidos li span.boton.restar {left: 15px;}
+#pactometro2019 > .paso ul.listapartidos li > div.investir .botonabs,#pactometro2019 ul.listapartidos li > div.investir .botonno{display:none}
+#pactometro2019 > .paso ul.listapartidos li > div.investir .botonsi{width:100%}
+#pactometro2019 > .paso ul.listapartidos .selector{background:linear-gradient(to top,#fff 0%,#efefef 100%); font-family: "roboto";}
+
+#pactometro2019 > #paso2 ul.listapartidos li {cursor:pointer}
+#pactometro2019 > #paso2 ul.listapartidos li span.diputados-partido {font-size:16px;}
+.tippy-popper {font-family: "roboto condensed"}
+
+/*COLORES*/
+    #pactometro2019 > .paso ul.listapartidos .selector:before {position: absolute; content:""; width: 100%; height: 0; transition: height .3s ease; bottom:0; left:0;}
+    #pactometro2019 > .paso ul.listapartidos .selector.seleccionado span {z-index:0;position:relative; color: white !important; transition: color .3s ease;}
+    #pactometro2019 > .paso ul.listapartidos .selector.seleccionado:before {height:100%;}
+    #pactometro2019 > .paso ul.listapartidos .selector:after {height: 5px; width: 100%; content:""; position: absolute;left:0; bottom: 0px;z-index:1;}
+    #pactometro2019 > .paso ul.listapartidos .selector.seleccionado:after {background-color:  rgba(0, 0, 0, 0.3) !important;}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-pp:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-pp.seleccionado:before {background-color: #279fd5}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-psoe:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-psoe.seleccionado:before {background-color: #d61824}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-podemos:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-podemos.seleccionado:before {background-color: #6d2d5f}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-ciudadanos:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-ciudadanos.seleccionado:before {background-color: #f0853a}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-vox:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-vox.seleccionado:before {background-color: #92b055}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-erc:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-erc.seleccionado:before {background-color: #fabc43}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-compromis:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-compromis.seleccionado:before {background-color: #ce6b29}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-pdecat:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-pdecat.seleccionado:before {background-color: #0d6ea4}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-pnv:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-pnv.seleccionado:before {background-color: #45632f}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-bildu:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-bildu.seleccionado:before {background-color: #719953}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-upn:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-upn.seleccionado:before {background-color: #d52525}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-fac:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-fac.seleccionado:before  {background-color: #253f74}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-cc:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-cc.seleccionado:before {background-color: #dcb942}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-nc:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-nc.seleccionado:before {background-color: #81c03b}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-pacma:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-pacma.seleccionado:before {background-color: #93a607}
+    #pactometro2019 > .paso ul.listapartidos .selector.partido-prc:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-prc.seleccionado:before {background-color: #bfcd16}
+#pactometro2019 > .paso ul.listapartidos .selector > div{overflow:auto;border-bottom:4px solid #000;margin-top:9px}
+#pactometro2019 > .paso ul.listapartidos .selector > div span.boton{font-family:roboto condensed;border:0;margin:0;text-transform:uppercase;padding:0;width:33.33%;float:left;height:28px;cursor:pointer;background-color:#eaeaea}
+#pactometro2019 > .paso ul.listapartidos .selector > div span.boton.activado{background-color:transparent;color:#fff;font-weight:700;text-shadow:1px 1px 1px rgba(0,0,0,0.3)}
+
+/*AVISOS*/
+.swal2-popup .swal2-title {font-family: "roboto"; font-weight: 500;color: #1d1d1d; font-size: 20px;max-width: 360px;}
+.swal2-popup #swal2-content {line-height: 21px;font-size: 15px; font-family: "roboto"; font-weight: 400; padding: 0px 30px;margin: 0 auto; color: #1d1d1d;}
+.swal2-popup .swal2-styled.swal2-confirm, .swal2-popup .swal2-styled.swal2-cancel {box-shadow: none !important;cursor:pointer;border-radius: 0;font-family: "roboto condensed"; text-transform: uppercase; background-color:#1d1d1d; outline: none !important;}
+.swal2-popup .swal2-styled.swal2-cancel {background-color:#709d1a !important;};
+.swal2-popup .swal2-styled:focus {box-shadow: none !important}
+.swal2-popup {padding-top: 1.50em; padding-bottom: 1.30em;}
+.swal2-popup .swal2-actions {margin-top: 2em;}
+
+/*GRID*/
+:root {
+    --paddingX: 20px;
+    --margenesBox: 10px;
+    --margenesBox2: 6px;
+    --margenesBoxM: 15px;
+    --margenesBoxM2: 10px;
+    --heightBoxXXSmall: 165px;
+    --heightBoxXSmall: 235px;
+    --heightBoxSmall: 300px;
+    --heightBoxMedium: 370px;
+    --heightBoxLarge: 400px;
+}
+@media(max-width: 380px) {
+    #pactometro2019 > #paso1 {height: 645px !important;}
+}
+@media(min-width: 1024px) {
+.mobile {display: none !important;}
+}
+
+@media(max-width: 1024px) {
+:root {
+--margenesBox: 8px;
+}
+body {margin:0;}
+    #pactometro2019 {padding: 0 15px;padding-top: 10px;}
+#pactometro2019 > #visor-parlamento {height: 175px; transition: .2s ease all;}
+#pactometro2019.completado.pactos > #visor-parlamento {height: 200px;}
+#pactometro2019 > #visor-parlamento .recuento {width: 140px;}
+#pactometro2019 > #visor-parlamento canvas {width: 350px !important; max-width: unset; max-height: unset; height: 175px !important;}
+#pactometro2019 > #visor-parlamento .recuento #avance {width: 100%;}
+#pactometro2019 > #visor-parlamento .recuento > span:first-child {font-size: 28px; font-weight: 500;}
+#pactometro2019 > #visor-parlamento .recuento .diputados-texto, #pactometro2019 > #visor-parlamento .recuento .diputados-totales {font-size: 13px !important;}
+#pactometro2019 > #visor-parlamento .recuento #avance {margin-top: 5px;width: 80%}
+#pactometro2019 > #visor-parlamento .recuento #avance {height: 8px}
+#pactometro2019 > .paso p {font-size: 14px; line-height: 20px;}
+#pactometro2019 > #paso1 {margin-top: 25px;height: 645px;padding-bottom: 0px;}
+#pactometro2019 > #paso1 ul.listapartidos li {padding: 10px 0 18px 0;}
+#pactometro2019 > .paso ul.listapartidos li span.boton.restar {left: 10px;}
+#pactometro2019 > .paso ul.listapartidos li span.boton.sumar {right: 10px;}
+#pactometro2019 > .paso ul.listapartidos li span.diputados-partido {font-size: 21px;}
+#pactometro2019 > .paso ul.listapartidos li span.nombre-partido, #pactometro2019 > .paso ul.listapartidos li span.nombre-partido-short {font-size: 14px;margin-bottom: 6px;}
+#pactometro2019 > .paso ul.listapartidos li span.boton {top:31px;}
+#pactometro2019 > .paso ul.listapartidos li span.boton:hover {border-color:#cecece;}
+#pactometro2019 > .paso ul.listapartidos li span.boton:active {border-color:#1d1d1d;}
+#pactometro2019 > .paso h3 > span:last-of-type {margin-top: 34px;font-size: 19px;}
+#pactometro2019 > .paso:before {left: 0; right: 0; margin: auto; /*width: 70%*/}
+#pactometro2019 > #paso1 #boton-reset {display: none;}
+#pactometro2019 > #paso1 ul.listapartidos {margin-top: 20px;}
+#pactometro2019 > #visor-parlamento #mayoria {height: 99px}
+#pactometro2019 {background-size:  800px; background-position: center -16px;}
+#pactometro2019.completado.pactos > #paso2 > .listapartidos {height: unset;}
+#pactometro2019.completado > #paso2 > #mensajes p.completado {width: 300px;}
+.desktop {display:none !important}
+#pactometro2019 > #paso1.off {height: 58px !important;}
+#pactometro2019 > #paso2 ul.listapartidos li {padding: 7px 0 9px 0 !important;}
+#pactometro2019 > #paso2 ul.listapartidos li span {margin-bottom: 0;}
+#pactometro2019.completado.pactos > #paso2 {margin-top: 10px;}
+#pactometro2019 > #visor-parlamento .recuento .diputados-totales {font-weight: 500;}
+#pactometro2019 > #visor-parlamento .recuento #viabilidad > div {font-size: 14px;}
+#pactometro2019 > #visor-parlamento .recuento #viabilidad {height: 25px;}
+#pactometro2019.completado.pactos > #paso2 > #mensajes p.completado {width: unset;}
+#pactometro2019 > #paso2 > #mensajes {margin-bottom:15px}
+#pactometro2019 > #visor-parlamento #recuento2 .diputados-totales {margin-top: 0;}
+#pactometro2019 > .paso p .button {margin-top: 14px;margin-bottom: 30px }
+#pactometro2019 > #paso2 h3 {margin-bottom: 7px;}
+.swal2-popup .swal2-title {font-family: "roboto"; font-weight: 500; font-size: 18px;}
+.swal2-popup .swal2-styled.swal2-confirm, .swal2-popup .swal2-styled.swal2-cancel {font-size: 14px; padding:10px 9px 8px 9px}
+.swal2-popup #swal2-content {padding: 0px;}
+}
+
+
+
+
+@media (min-width:1000px) {
+    .dst8 > .box {width: calc(calc(100% / 8) - calc(var(--margenesBox) * 7 / 8));}
+    .dst8.m2 > .box {width: calc(calc(100% / 8) - calc(var(--margenesBox2) * 7 / 8));}
+    .dst8 > .box:nth-child(8n) {margin-right: 0;}
+
+    .dst16 > .box {width: calc(calc(100% / 16) - calc(var(--margenesBox) * 15 / 16));}
+    .dst16.m2 > .box {width: calc(calc(100% / 16) - calc(var(--margenesBox2) * 15 / 16));}
+    .dst16 > .box:nth-child(16n) {margin-right: 0;}
+}
+
+
+/*TIPPY*/
+.tippy-iOS{cursor:pointer!important}.tippy-notransition{transition:none!important}.tippy-popper{-webkit-perspective:700px;perspective:700px;z-index:9999;outline:0;transition-timing-function:cubic-bezier(.165,.84,.44,1);pointer-events:none;line-height:1.4;max-width:calc(100% - 10px)}.tippy-popper[x-placement^=top] .tippy-backdrop{border-radius:40% 40% 0 0}.tippy-popper[x-placement^=top] .tippy-roundarrow{bottom:-8px;-webkit-transform-origin:50% 0;transform-origin:50% 0}.tippy-popper[x-placement^=top] .tippy-roundarrow svg{position:absolute;left:0;-webkit-transform:rotate(180deg);transform:rotate(180deg)}.tippy-popper[x-placement^=top] .tippy-arrow{border-top:8px solid #333;border-right:8px solid transparent;border-left:8px solid transparent;bottom:-7px;margin:0 6px;-webkit-transform-origin:50% 0;transform-origin:50% 0}.tippy-popper[x-placement^=top] .tippy-backdrop{-webkit-transform-origin:0 25%;transform-origin:0 25%}.tippy-popper[x-placement^=top] .tippy-backdrop[data-state=visible]{-webkit-transform:scale(1) translate(-50%,-55%);transform:scale(1) translate(-50%,-55%)}.tippy-popper[x-placement^=top] .tippy-backdrop[data-state=hidden]{-webkit-transform:scale(.2) translate(-50%,-45%);transform:scale(.2) translate(-50%,-45%);opacity:0}.tippy-popper[x-placement^=top] [data-animation=shift-toward][data-state=visible]{-webkit-transform:translateY(-10px);transform:translateY(-10px)}.tippy-popper[x-placement^=top] [data-animation=shift-toward][data-state=hidden]{opacity:0;-webkit-transform:translateY(-20px);transform:translateY(-20px)}.tippy-popper[x-placement^=top] [data-animation=perspective]{-webkit-transform-origin:bottom;transform-origin:bottom}.tippy-popper[x-placement^=top] [data-animation=perspective][data-state=visible]{-webkit-transform:translateY(-10px) rotateX(0);transform:translateY(-10px) rotateX(0)}.tippy-popper[x-placement^=top] [data-animation=perspective][data-state=hidden]{opacity:0;-webkit-transform:translateY(0) rotateX(60deg);transform:translateY(0) rotateX(60deg)}.tippy-popper[x-placement^=top] [data-animation=fade][data-state=visible]{-webkit-transform:translateY(-10px);transform:translateY(-10px)}.tippy-popper[x-placement^=top] [data-animation=fade][data-state=hidden]{opacity:0;-webkit-transform:translateY(-10px);transform:translateY(-10px)}.tippy-popper[x-placement^=top] [data-animation=shift-away][data-state=visible]{-webkit-transform:translateY(-10px);transform:translateY(-10px)}.tippy-popper[x-placement^=top] [data-animation=shift-away][data-state=hidden]{opacity:0;-webkit-transform:translateY(0);transform:translateY(0)}.tippy-popper[x-placement^=top] [data-animation=scale][data-state=visible]{-webkit-transform:translateY(-10px) scale(1);transform:translateY(-10px) scale(1)}.tippy-popper[x-placement^=top] [data-animation=scale][data-state=hidden]{opacity:0;-webkit-transform:translateY(0) scale(.5);transform:translateY(0) scale(.5)}.tippy-popper[x-placement^=bottom] .tippy-backdrop{border-radius:0 0 30% 30%}.tippy-popper[x-placement^=bottom] .tippy-roundarrow{top:-8px;-webkit-transform-origin:50% 100%;transform-origin:50% 100%}.tippy-popper[x-placement^=bottom] .tippy-roundarrow svg{position:absolute;left:0;-webkit-transform:rotate(0);transform:rotate(0)}.tippy-popper[x-placement^=bottom] .tippy-arrow{border-bottom:8px solid #333;border-right:8px solid transparent;border-left:8px solid transparent;top:-7px;margin:0 6px;-webkit-transform-origin:50% 100%;transform-origin:50% 100%}.tippy-popper[x-placement^=bottom] .tippy-backdrop{-webkit-transform-origin:0 -50%;transform-origin:0 -50%}.tippy-popper[x-placement^=bottom] .tippy-backdrop[data-state=visible]{-webkit-transform:scale(1) translate(-50%,-45%);transform:scale(1) translate(-50%,-45%)}.tippy-popper[x-placement^=bottom] .tippy-backdrop[data-state=hidden]{-webkit-transform:scale(.2) translate(-50%);transform:scale(.2) translate(-50%);opacity:0}.tippy-popper[x-placement^=bottom] [data-animation=shift-toward][data-state=visible]{-webkit-transform:translateY(10px);transform:translateY(10px)}.tippy-popper[x-placement^=bottom] [data-animation=shift-toward][data-state=hidden]{opacity:0;-webkit-transform:translateY(20px);transform:translateY(20px)}.tippy-popper[x-placement^=bottom] [data-animation=perspective]{-webkit-transform-origin:top;transform-origin:top}.tippy-popper[x-placement^=bottom] [data-animation=perspective][data-state=visible]{-webkit-transform:translateY(10px) rotateX(0);transform:translateY(10px) rotateX(0)}.tippy-popper[x-placement^=bottom] [data-animation=perspective][data-state=hidden]{opacity:0;-webkit-transform:translateY(0) rotateX(-60deg);transform:translateY(0) rotateX(-60deg)}.tippy-popper[x-placement^=bottom] [data-animation=fade][data-state=visible]{-webkit-transform:translateY(10px);transform:translateY(10px)}.tippy-popper[x-placement^=bottom] [data-animation=fade][data-state=hidden]{opacity:0;-webkit-transform:translateY(10px);transform:translateY(10px)}.tippy-popper[x-placement^=bottom] [data-animation=shift-away][data-state=visible]{-webkit-transform:translateY(10px);transform:translateY(10px)}.tippy-popper[x-placement^=bottom] [data-animation=shift-away][data-state=hidden]{opacity:0;-webkit-transform:translateY(0);transform:translateY(0)}.tippy-popper[x-placement^=bottom] [data-animation=scale][data-state=visible]{-webkit-transform:translateY(10px) scale(1);transform:translateY(10px) scale(1)}.tippy-popper[x-placement^=bottom] [data-animation=scale][data-state=hidden]{opacity:0;-webkit-transform:translateY(0) scale(.5);transform:translateY(0) scale(.5)}.tippy-popper[x-placement^=left] .tippy-backdrop{border-radius:50% 0 0 50%}.tippy-popper[x-placement^=left] .tippy-roundarrow{right:-16px;-webkit-transform-origin:33.33333333% 50%;transform-origin:33.33333333% 50%}.tippy-popper[x-placement^=left] .tippy-roundarrow svg{position:absolute;left:0;-webkit-transform:rotate(90deg);transform:rotate(90deg)}.tippy-popper[x-placement^=left] .tippy-arrow{border-left:8px solid #333;border-top:8px solid transparent;border-bottom:8px solid transparent;right:-7px;margin:3px 0;-webkit-transform-origin:0 50%;transform-origin:0 50%}.tippy-popper[x-placement^=left] .tippy-backdrop{-webkit-transform-origin:50% 0;transform-origin:50% 0}.tippy-popper[x-placement^=left] .tippy-backdrop[data-state=visible]{-webkit-transform:scale(1) translate(-50%,-50%);transform:scale(1) translate(-50%,-50%)}.tippy-popper[x-placement^=left] .tippy-backdrop[data-state=hidden]{-webkit-transform:scale(.2) translate(-75%,-50%);transform:scale(.2) translate(-75%,-50%);opacity:0}.tippy-popper[x-placement^=left] [data-animation=shift-toward][data-state=visible]{-webkit-transform:translateX(-10px);transform:translateX(-10px)}.tippy-popper[x-placement^=left] [data-animation=shift-toward][data-state=hidden]{opacity:0;-webkit-transform:translateX(-20px);transform:translateX(-20px)}.tippy-popper[x-placement^=left] [data-animation=perspective]{-webkit-transform-origin:right;transform-origin:right}.tippy-popper[x-placement^=left] [data-animation=perspective][data-state=visible]{-webkit-transform:translateX(-10px) rotateY(0);transform:translateX(-10px) rotateY(0)}.tippy-popper[x-placement^=left] [data-animation=perspective][data-state=hidden]{opacity:0;-webkit-transform:translateX(0) rotateY(-60deg);transform:translateX(0) rotateY(-60deg)}.tippy-popper[x-placement^=left] [data-animation=fade][data-state=visible]{-webkit-transform:translateX(-10px);transform:translateX(-10px)}.tippy-popper[x-placement^=left] [data-animation=fade][data-state=hidden]{opacity:0;-webkit-transform:translateX(-10px);transform:translateX(-10px)}.tippy-popper[x-placement^=left] [data-animation=shift-away][data-state=visible]{-webkit-transform:translateX(-10px);transform:translateX(-10px)}.tippy-popper[x-placement^=left] [data-animation=shift-away][data-state=hidden]{opacity:0;-webkit-transform:translateX(0);transform:translateX(0)}.tippy-popper[x-placement^=left] [data-animation=scale][data-state=visible]{-webkit-transform:translateX(-10px) scale(1);transform:translateX(-10px) scale(1)}.tippy-popper[x-placement^=left] [data-animation=scale][data-state=hidden]{opacity:0;-webkit-transform:translateX(0) scale(.5);transform:translateX(0) scale(.5)}.tippy-popper[x-placement^=right] .tippy-backdrop{border-radius:0 50% 50% 0}.tippy-popper[x-placement^=right] .tippy-roundarrow{left:-16px;-webkit-transform-origin:66.66666666% 50%;transform-origin:66.66666666% 50%}.tippy-popper[x-placement^=right] .tippy-roundarrow svg{position:absolute;left:0;-webkit-transform:rotate(-90deg);transform:rotate(-90deg)}.tippy-popper[x-placement^=right] .tippy-arrow{border-right:8px solid #333;border-top:8px solid transparent;border-bottom:8px solid transparent;left:-7px;margin:3px 0;-webkit-transform-origin:100% 50%;transform-origin:100% 50%}.tippy-popper[x-placement^=right] .tippy-backdrop{-webkit-transform-origin:-50% 0;transform-origin:-50% 0}.tippy-popper[x-placement^=right] .tippy-backdrop[data-state=visible]{-webkit-transform:scale(1) translate(-50%,-50%);transform:scale(1) translate(-50%,-50%)}.tippy-popper[x-placement^=right] .tippy-backdrop[data-state=hidden]{-webkit-transform:scale(.2) translate(-25%,-50%);transform:scale(.2) translate(-25%,-50%);opacity:0}.tippy-popper[x-placement^=right] [data-animation=shift-toward][data-state=visible]{-webkit-transform:translateX(10px);transform:translateX(10px)}.tippy-popper[x-placement^=right] [data-animation=shift-toward][data-state=hidden]{opacity:0;-webkit-transform:translateX(20px);transform:translateX(20px)}.tippy-popper[x-placement^=right] [data-animation=perspective]{-webkit-transform-origin:left;transform-origin:left}.tippy-popper[x-placement^=right] [data-animation=perspective][data-state=visible]{-webkit-transform:translateX(10px) rotateY(0);transform:translateX(10px) rotateY(0)}.tippy-popper[x-placement^=right] [data-animation=perspective][data-state=hidden]{opacity:0;-webkit-transform:translateX(0) rotateY(60deg);transform:translateX(0) rotateY(60deg)}.tippy-popper[x-placement^=right] [data-animation=fade][data-state=visible]{-webkit-transform:translateX(10px);transform:translateX(10px)}.tippy-popper[x-placement^=right] [data-animation=fade][data-state=hidden]{opacity:0;-webkit-transform:translateX(10px);transform:translateX(10px)}.tippy-popper[x-placement^=right] [data-animation=shift-away][data-state=visible]{-webkit-transform:translateX(10px);transform:translateX(10px)}.tippy-popper[x-placement^=right] [data-animation=shift-away][data-state=hidden]{opacity:0;-webkit-transform:translateX(0);transform:translateX(0)}.tippy-popper[x-placement^=right] [data-animation=scale][data-state=visible]{-webkit-transform:translateX(10px) scale(1);transform:translateX(10px) scale(1)}.tippy-popper[x-placement^=right] [data-animation=scale][data-state=hidden]{opacity:0;-webkit-transform:translateX(0) scale(.5);transform:translateX(0) scale(.5)}.tippy-tooltip{position:relative;color:#fff;border-radius:4px;font-size:.9rem;padding:.3rem .6rem;max-width:350px;text-align:center;will-change:transform;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background-color:#333}.tippy-tooltip[data-size=small]{padding:.2rem .4rem;font-size:.75rem}.tippy-tooltip[data-size=large]{padding:.4rem .8rem;font-size:1rem}.tippy-tooltip[data-animatefill]{overflow:hidden;background-color:transparent}.tippy-tooltip[data-interactive],.tippy-tooltip[data-interactive] path{pointer-events:auto}.tippy-tooltip[data-inertia][data-state=visible]{transition-timing-function:cubic-bezier(.54,1.5,.38,1.11)}.tippy-tooltip[data-inertia][data-state=hidden]{transition-timing-function:ease}.tippy-arrow,.tippy-roundarrow{position:absolute;width:0;height:0}.tippy-roundarrow{width:24px;height:8px;fill:#333;pointer-events:none}.tippy-backdrop{position:absolute;will-change:transform;background-color:#333;border-radius:50%;width:calc(110% + 2rem);left:50%;top:50%;z-index:-1;transition:all cubic-bezier(.46,.1,.52,.98);-webkit-backface-visibility:hidden;backface-visibility:hidden}.tippy-backdrop:after{content:"";float:left;padding-top:100%}.tippy-backdrop+.tippy-content{transition-property:opacity;will-change:opacity}.tippy-backdrop+.tippy-content[data-state=visible]{opacity:1}.tippy-backdrop+.tippy-content[data-state=hidden]{opacity:0}
+</style>
+
+
+<div id="pactometro2019">
+
+    <div id="visor-parlamento">
+        <div id="mayoria" data-tippy="Mayoría absoluta: 176 diputados" data-tippy-animation="shift-away" data-tippy-arrow="true"></div>
+        <div id="recuento" class="recuento">
+            <span id="diputados-asignados">0</span>
+            <span class="diputados-texto">diputados asignados</span>
+            <span class="diputados-totales">de 350</span>
+            <div id="avance">
+                <div id="bar"></div>
+            </div>
+        </div>
+        <div id="recuento2" class="recuento">
+            <span id="diputados-suma">0</span>
+            <span class="diputados-texto">diputados en tu pacto</span>
+            <span class="diputados-totales">elige tus partidos</span>
+            <div id="viabilidad" class="cY off">
+                    <div id="exito" class="cXY off">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQyNi42NjcgNDI2LjY2NyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDI2LjY2NyA0MjYuNjY3OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIGNsYXNzPSIiPjxnPjxwYXRoIHN0eWxlPSJmaWxsOiM3MDlEMUEiIGQ9Ik0yMTMuMzMzLDBDOTUuNTE4LDAsMCw5NS41MTQsMCwyMTMuMzMzczk1LjUxOCwyMTMuMzMzLDIxMy4zMzMsMjEzLjMzMyAgYzExNy44MjgsMCwyMTMuMzMzLTk1LjUxNCwyMTMuMzMzLTIxMy4zMzNTMzMxLjE1NywwLDIxMy4zMzMsMHogTTE3NC4xOTksMzIyLjkxOGwtOTMuOTM1LTkzLjkzMWwzMS4zMDktMzEuMzA5bDYyLjYyNiw2Mi42MjIgIGwxNDAuODk0LTE0MC44OThsMzEuMzA5LDMxLjMwOUwxNzQuMTk5LDMyMi45MTh6IiBkYXRhLW9yaWdpbmFsPSIjNkFDMjU5IiBjbGFzcz0iYWN0aXZlLXBhdGgiIGRhdGEtb2xkX2NvbG9yPSIjNzA5ZDFhIj48L3BhdGg+PC9nPiA8L3N2Zz4=" />
+                        <span class="desktop">Tu pacto sería viable</span>
+                        <span class="mobile">Mayoría absoluta</span>
+                    </div>
+                    <div id="fracaso" class="cXY off">
+                        <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0OTYuMTU4IDQ5Ni4xNTgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ5Ni4xNTggNDk2LjE1ODsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxwYXRoIHN0eWxlPSJmaWxsOiNFMDRGNUY7IiBkPSJNNDk2LjE1OCwyNDguMDg1YzAtMTM3LjAyMS0xMTEuMDctMjQ4LjA4Mi0yNDguMDc2LTI0OC4wODJDMTExLjA3LDAuMDAzLDAsMTExLjA2MywwLDI0OC4wODUgIGMwLDEzNy4wMDIsMTExLjA3LDI0OC4wNywyNDguMDgyLDI0OC4wN0MzODUuMDg4LDQ5Ni4xNTUsNDk2LjE1OCwzODUuMDg3LDQ5Ni4xNTgsMjQ4LjA4NXoiLz4KPHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik0yNzcuMDQyLDI0OC4wODJsNzIuNTI4LTg0LjE5NmM3LjkxLTkuMTgyLDYuODc2LTIzLjA0MS0yLjMxLTMwLjk1MSAgYy05LjE3Mi03LjkwNC0yMy4wMzItNi44NzYtMzAuOTQ3LDIuMzA2bC02OC4yMzYsNzkuMjEybC02OC4yMjktNzkuMjEyYy03LjkxLTkuMTg4LTIxLjc3MS0xMC4yMTYtMzAuOTU0LTIuMzA2ICBjLTkuMTg2LDcuOTEtMTAuMjE0LDIxLjc3LTIuMzA0LDMwLjk1MWw3Mi41MjIsODQuMTk2bC03Mi41MjIsODQuMTkyYy03LjkxLDkuMTgyLTYuODgyLDIzLjA0MSwyLjMwNCwzMC45NTEgIGM0LjE0MywzLjU2OSw5LjI0MSw1LjMxOCwxNC4zMTYsNS4zMThjNi4xNjEsMCwxMi4yOTQtMi41ODYsMTYuNjM4LTcuNjI0bDY4LjIyOS03OS4yMTJsNjguMjM2LDc5LjIxMiAgYzQuMzM4LDUuMDQxLDEwLjQ3LDcuNjI0LDE2LjYzNyw3LjYyNGM1LjA2OSwwLDEwLjE2OC0xLjc0OSwxNC4zMTEtNS4zMThjOS4xODYtNy45MSwxMC4yMi0yMS43NywyLjMxLTMwLjk1MUwyNzcuMDQyLDI0OC4wODJ6Ii8+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=" />
+                        <span class="desktop">No obtendría mayoría</span>
+                        <span class="mobile">Sin mayoría</span>
+                    </div>
+                </div>
+        </div>
+        <canvas id="myChart" ></canvas>
+    </div>
+
+<div id="paso1" class="paso">
+    <h3><span>1</span><span>Configura el parlamento</span></h3>
+    <span class="boton" id="boton-reset" onclick="resetCongreso()">Vaciar Congreso</span>
+    <p>Este es el Congreso actual. <span class="desktop">Juega a quitar y añadir</span><span class="mobile">Quita y añade</span> escaños hasta construir tu Parlamento con 350 diputados. <span class="desktop">Si prefieres empezar de cero, pulsa sobre </span><!--<span class="mobile">Si lo prefieres, puedes </span>--><br class="mobile"/><span class="reset"onclick="resetCongreso()">Vaciar Congreso</span><span class="desktop">.</span></p>
+    <ul class="listapartidos dst8 dstm3">
+        <li class="partido-pp selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">PP</span>
+            <span class="diputados-partido" bind="any_name">134</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-psoe selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">PSOE</span>
+            <span class="diputados-partido">84</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-podemos selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">U. PODEMOS</span>
+            <span class="diputados-partido">67</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-ciudadanos selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">CIUDADANOS</span>
+            <span class="diputados-partido">32</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-vox selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">VOX</span>
+            <span class="diputados-partido">0</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-erc selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">ERC</span>
+            <span class="diputados-partido">9</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-pdecat selector box" >
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">PdeCAT</span>
+            <span class="diputados-partido">8</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-pnv selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">PNV</span>
+            <span class="diputados-partido">5</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-compromis selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">COMPROMÍS</span>
+            <span class="diputados-partido">4</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-bildu selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">EH BILDU</span>
+            <span class="diputados-partido">2</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-upn selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">UPN</span>
+            <span class="diputados-partido">2</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-cc selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">CC</span>
+            <span class="diputados-partido">1</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-fac selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">FAC</span>
+            <span class="diputados-partido">1</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-nc selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">NC</span>
+            <span class="diputados-partido">1</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-pacma selector box" >
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">PACMA</span>
+            <span class="diputados-partido">0</span>
+            <span class="boton sumar">+</span>
+        </li>
+        <li class="partido-prc selector box">
+            <span class="boton restar">-</span>
+            <span class="nombre-partido">PRC</span>
+            <span class="diputados-partido">0</span>
+            <span class="boton sumar">+</span>
+        </li>
+
+    </ul>
+</div>
+<div id="paso2" class="paso">
+        <h3><span>2</span><span>Simula un pacto</span></h3>
+        <div id="mensajes">
+                <p class="no-completado">Podrás simular tu pacto de Gobierno una vez hayas configurado el Parlamento al completo (350 diputados).</p>
+                <p class="completado">Ahora que todos los escaños están asignados, estás listo para pactar.<br/><span class="button">Empezar</span></span></p>
+                <p class="completado pactos"><span class="mobile">Es el momento de pactar: pulsa sobre cada partido hasta alcanzar mayoría absoluta (176 dp.)</span><span class="desktop">Es el momento de hacer tu pacto: simúlalo pulsando sobre cada partido hasta alcanzar mayoría absoluta (176 diputados).</span></p>
+        </div>
+        <ul class="listapartidos dst16 dstm4">
+                <li class="partido-pp selector box">
+                    <span class="nombre-partido nombre-partido-short">PP</span>
+                    <span class="diputados-partido" bind="any_name">134</span>
+                </li>
+                <li class="partido-psoe selector box">
+                    <span class="nombre-partido nombre-partido-short">PSOE</span>
+                    <span class="diputados-partido">84</span>
+                </li>
+                <li class="partido-podemos selector box">
+                    <span class="nombre-partido">U. PODEMOS</span>
+                    <span class="nombre-partido-short">UP</span>
+                    <span class="diputados-partido">67</span>
+                </li>
+                <li class="partido-ciudadanos selector box">
+                    <span class="nombre-partido">CIUDADANOS</span>
+                    <span class="nombre-partido-short">Cs</span>
+                    <span class="diputados-partido">32</span>
+                </li>
+                <li class="partido-vox selector box">
+                    <span class="nombre-partido nombre-partido-short">VOX</span>
+                    <span class="diputados-partido">0</span>
+                </li>
+                <li class="partido-erc selector box">
+                    <span class="nombre-partido nombre-partido-short">ERC</span>
+                    <span class="diputados-partido">9</span>
+                </li>
+                <li class="partido-pdecat selector box" >
+                    <span class="nombre-partido nombre-partido-short">PdeCAT</span>
+                    <span class="diputados-partido">8</span>
+                </li>
+                <li class="partido-pnv selector box">
+                    <span class="nombre-partido nombre-partido-short">PNV</span>
+                    <span class="diputados-partido">5</span>
+                </li>
+                <li class="partido-compromis selector box">
+                    <span class="nombre-partido">COMPROMÍS</span>
+                    <span class="nombre-partido nombre-partido-short">CMP</span>
+                    <span class="diputados-partido">4</span>
+                </li>
+                <li class="partido-bildu selector box">
+                    <span class="nombre-partido">EH BILDU</span>
+                    <span class="nombre-partido nombre-partido-short">Bildu</span>
+                    <span class="diputados-partido">2</span>
+                </li>
+                <li class="partido-upn selector box">
+                    <span class="nombre-partido nombre-partido-short">UPN</span>
+                    <span class="diputados-partido">2</span>
+                </li>
+                <li class="partido-cc selector box">
+                    <span class="nombre-partido nombre-partido-short">CC</span>
+                    <span class="diputados-partido">1</span>
+                </li>
+                <li class="partido-fac selector box">
+                    <span class="nombre-partido nombre-partido-short">FAC</span>
+                    <span class="diputados-partido">1</span>
+                </li>
+                <li class="partido-nc selector box">
+                    <span class="nombre-partido nombre-partido-short">NC</span>
+                    <span class="diputados-partido">1</span>
+                </li>
+                <li class="partido-pacma selector box">
+                    <span class="nombre-partido nombre-partido-short">PACMA</span>
+                    <span class="diputados-partido">0</span>
+                </li>
+                <li class="partido-prc selector box">
+                    <span class="nombre-partido nombre-partido-short">PRC</span>
+                    <span class="diputados-partido">0</span>
+                </li>
+
+            </ul>
+</div>
+
+    <!--<button onclick="cambiarDatos(myChart, nuevosEscano, 0)">Cambiar Datos</button>-->
+</div>
+
+
+
+<script>
+        const escanosIniciales = [134, 84, 67, 32, 0, 9, 8, 5, 4, 2, 2, 1, 1, 1, 0, 0];
+        //let nuevosEscano = [14, 94, 62, 37, 6, 8, 5, 7, 1, 3, 0, 2, 0, 1];
+
+        function cambiarDatos(chart, data, datasetIndex) {
+            chart.data.datasets[datasetIndex].data = data;
+            chart.update();
+        }
+
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["PP", "PSOE", "Podemos", "Ciudadanos", "VOX", "ERC", "PDeCAT", "PNV", "Compromís", "EH Bildu", "UPN", "CC", "FAC", "NC", "Pacma", "PRC", "Por asignar"],
+                datasets: [{
+                    label: 'Escaños',
+                    data: escanosIniciales,
+                    backgroundColor: [
+                        'rgba(39, 159, 213, 1)', //PP
+                        'rgba(214, 24, 36, 1)', //PSOE
+                        'rgba(109, 45, 95, 1)', //PODEMOS
+                        'rgba(240, 133, 58, 1)', //CIUDADANOS
+                        'rgba(129, 192, 59, 1)', //VOX
+                        'rgba(250, 188, 67, 1)', //ERC
+                        'rgba(13, 110, 164, 1)', //PDeCAT
+                        'rgba(69, 99, 47, 1)', //PNV
+                        'rgba(206, 107, 41, 1)', //COMPROMIS
+                        'rgba(113, 153, 83, 1)', //BILDU
+                        'rgba(213, 37, 37, 1)', //UPN
+                        'rgba(220, 185, 66, 1)', //CC
+                        'rgba(37, 63, 116, 1)', //FAC
+                        'rgba(129, 192, 59, 1)', //NC
+                        'rgba(147, 166, 7, 1)', //PACMA
+                        'rgba(191, 205, 22, 1)', //PRC
+                        'rgba(234, 234, 234, 1)' //POR ASIGNAR
+
+                    ],
+                    borderColor: [
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                        'rgba(255, 255, 255, 1)',
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI,
+                legend: false
+            }
+        });
+
+    //MOSTRAR CAJAS PARTIDOS
+    function mostrarCajasPartidos(selector) {
+        $(selector).removeClass("shown");
+        $(selector).each(function(i,el) {
+            $(el).delay(40*i).queue(function() {
+                $(this).addClass('shown').dequeue();
+            });
+        });
+    }
+    mostrarCajasPartidos("#pactometro2019 > #paso1 ul.listapartidos li");
+
+    //CALCULO DIPUTADOS CONFIGURADOS
+    function GetTotalDiputados() {
+        totalDiputados = 0;
+        arrayDiputados = [];
+        $("#pactometro2019 > #paso1 ul.listapartidos li").each(function() {
+            var numDiputadosSingle = parseInt($(this).find("span.diputados-partido").text());
+            totalDiputados = totalDiputados + numDiputadosSingle;
+            //array partidos
+            arrayDiputados.push(numDiputadosSingle);
+            faltanDiputados = 350 - totalDiputados;
+        });
+
+        //actualizar barra progreso
+        $("#pactometro2019 > #visor-parlamento #recuento #diputados-asignados").text(totalDiputados);
+        var porcentajeProgresoBarra = totalDiputados * 100 / 350;
+        $("#pactometro2019 > #visor-parlamento #recuento #avance #bar").width(porcentajeProgresoBarra + "%");
+
+        //actualizar hemicilo
+        arrayDiputados.push(faltanDiputados);
+        cambiarDatos(myChart, arrayDiputados, 0)
+
+        //estado
+        if(totalDiputados == 350) {
+            congresoCompletado = "si";
+            $("#pactometro2019").addClass("completado");
+        } else {
+            congresoCompletado = "no";
+            $("#pactometro2019").removeClass("completado");
+        }
+
+        return totalDiputados;
+    }
+    GetTotalDiputados();
+
+    //RESET CONGRESO
+    function resetCongreso() {
+    $("#pactometro2019 > .paso ul.listapartidos .selector .diputados-partido").text(0);
+    GetTotalDiputados();
+    }
+
+    //SUMAR Y RESTAR
+
+    //mensajes de error
+    function showError(tipo, modal) {
+        if (tipo == "completado") {
+            Swal.fire({
+                title: "¡Congreso completado!",
+                text: "Has asignado los 350 escaños del Congreso. Simula ahora tu pacto o, si prefieres hacer algún cambio, redistruye los escaños.",
+                confirmButtonText: 'Redistribuir escaños',
+                cancelButtonText: 'Pactar',
+                showCancelButton: true
+                }).then((result) => {
+                    if (result.value) {
+                        //console.log("seguir configurando");
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        modoPactos();
+                    }
+                    })
+        } else if (tipo == "minimo") {
+            Swal.fire({title: "Has llegado al mínimo", text: "Un partido no puede tener menos de 0 diputados", confirmButtonText: 'Aceptar'})
+        } else if (tipo == "insuficiente") {
+            Swal.fire({title: "Aún te quedan " + modal + " esca&ntilde;os por asignar", text: "Para poder realizar tu pacto, es necesario asignar todos los escaños del Congreso (350)", confirmButtonText: 'Aceptar'})
+        } else if (tipo == "tope") {
+            Swal.fire({title: "Ya están asignados todos los escaños", text: "Resta diputados de otro partido e inténtalo de nuevo.", confirmButtonText: 'Aceptar'})
+            Swal.fire({
+                title: "Ya están asignados todos los escaños",
+                text: "Resta diputados de otro partido e inténtalo de nuevo. Si lo prefieres, simula ahora tu pacto.",
+                confirmButtonText: 'Seguir configurando',
+                cancelButtonText: 'Pactar',
+                showCancelButton: true
+                }).then((result) => {
+                    if (result.value) {
+                        //console.log("seguir configurando");
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        modoPactos();
+                    }
+                    })
+
+        }
+    }
+
+    function asignarDiputados(operacion, objeto) {
+        GetTotalDiputados();
+        var objNumDiputados = $("#pactometro2019 > #paso1 ul.listapartidos li." + objeto).find(".diputados-partido");
+        var objNumDiputadosTodos = $("li." + objeto).find(".diputados-partido");
+        numDiputadosSingle = parseInt(objNumDiputados.text());
+        if (operacion == "sumar") {
+            if ((totalDiputados == 349)) {
+                numDiputadosSingle = numDiputadosSingle + 1;
+                //showError("completado");
+            } else if ((totalDiputados == 350)) {
+                showError("tope");
+            } else if ((numDiputadosSingle < 350) && (totalDiputados < 350)) {
+                numDiputadosSingle = numDiputadosSingle + 1;
+            } else {
+                showError("tope");
+            }
+        } else if (operacion == "restar") {
+            if (numDiputadosSingle > 0) {
+                numDiputadosSingle = numDiputadosSingle - 1;
+            } else {
+                showError("minimo");
+            }
+        }
+        $(objNumDiputadosTodos).text(numDiputadosSingle);
+        GetTotalDiputados();
+    }
+
+    $("#pactometro2019 > #paso1 ul.listapartidos li span.boton").click(function() {
+        //var objNumDiputados = $(this).parent().find(".diputados-partido");
+        var partidoClass = $(this).parent().attr('class').split(' ')[0];
+        if($(this).hasClass("sumar")) {
+            asignarDiputados("sumar", partidoClass );
+        } else if($(this).hasClass("restar")) {
+            asignarDiputados("restar", partidoClass );
+        }
+    });
+
+                //LONG PRESS
+                !function(o){o.fn.longpress=function(e,n,t){return void 0===t&&(t=500),this.each(function(){var u,i,r=o(this);function c(n){u=(new Date).getTime();var r=o(this);i=setTimeout(function(){"function"==typeof e?e.call(r,n):o.error("Callback required for long press. You provided: "+typeof e)},t)}function s(e){(new Date).getTime()-u<t&&(clearTimeout(i),"function"==typeof n?n.call(o(this),e):void 0===n||o.error("Optional callback for short press should be a function."))}function a(o){clearTimeout(i)}r.on("mousedown",c),r.on("mouseup",s),r.on("mousemove",a),r.on("touchstart",c),r.on("touchend",s),r.on("touchmove",a)})}}(jQuery);
+
+                var interval;
+                $('#pactometro2019 > #paso1 ul.listapartidos li span.boton').longpress(function() {
+                    var thislongpress = $(this);
+                    var partidoClass = $(this).parent().attr('class').split(' ')[0];
+                    function performWhileMouseDown() {
+                        //definir operacion
+                        if(thislongpress.hasClass("sumar")) {
+                            operacion = "sumar";
+                        } else {operacion = "restar";}
+                        //ejecutar
+                        if((totalDiputados == 350) && (operacion == "sumar")) {
+                            clearInterval(interval);
+                            showError("completado");
+                        } else if ((thislongpress.parent().find(".diputados-partido").text() == 0) && (operacion == "restar")) {
+                            clearInterval(interval);
+                            showError("minimo");
+                        } else {asignarDiputados(operacion, partidoClass);}
+                    }
+                    interval = setInterval(performWhileMouseDown, 20);
+                }).bind( "mouseup touchend", function(){
+                    clearInterval(interval);
+                }).bind( "mousedown touchstart", function(){
+                });
+
+
+    //PACTOS: VIABILIDAD
+    function checkViabilidadPacto(numerodiputados) {
+        if(numerodiputados == 0) {
+            $("#pactometro2019 > #visor-parlamento .recuento #viabilidad").addClass("off");
+            $("#pactometro2019 > #visor-parlamento .recuento #viabilidad > div").removeClass("on").addClass("off");
+        }
+        else if(numerodiputados < 176) {
+            $("#pactometro2019 > #visor-parlamento .recuento #viabilidad").removeClass("off");
+            $("#pactometro2019 > #visor-parlamento .recuento #viabilidad #exito").removeClass("on").addClass("off");
+            $("#pactometro2019 > #visor-parlamento .recuento #viabilidad #fracaso").addClass("on").removeClass("off");
+            return "inviable";
+        } else {
+            $("#pactometro2019 > #visor-parlamento .recuento #viabilidad #exito").addClass("on").removeClass("off");
+            $("#pactometro2019 > #visor-parlamento .recuento #viabilidad #fracaso").removeClass("on").addClass("off");
+            return "viable";
+        }
+    };
+
+    //PACTOS
+    function initPactos() {
+        $("#pactometro2019.completado.pactos > #visor-parlamento #recuento2 #diputados-suma").text(0);
+        $('#pactometro2019 > #visor-parlamento #recuento2 .diputados-totales').text("elige tus partidos");
+        $("#pactometro2019 > #paso2 ul.listapartidos li").removeClass("seleccionado");
+        congresoPactos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 350];
+        partidosPactos = [];
+        cambiarDatos(myChart, congresoPactos, 0);
+        checkViabilidadPacto(0);
+    }
+    function modoPactos() {
+        $("#pactometro2019 > #paso2 ul.listapartidos li").removeClass("shown");
+        $("#pactometro2019 > #paso1").addClass("off");
+        $("#pactometro2019").addClass("pactos");
+        initPactos();
+        setTimeout(function(){ mostrarCajasPartidos("#pactometro2019 > #paso2 ul.listapartidos li"); }, 300);
+    }
+    function modoCongreso() {
+        GetTotalDiputados();
+        $("#pactometro2019 > #paso1").removeClass("off");
+        $("#pactometro2019").removeClass("pactos pactosinit");
+        mostrarCajasPartidos("#pactometro2019 > #paso1 ul.listapartidos li");
+    }
+
+    $("#pactometro2019 > #paso2").click(function() {
+        if((!$("#pactometro2019").hasClass("pactos")) && (!$("#pactometro2019").hasClass("completado")))  {
+            showError("insuficiente", faltanDiputados)
+        }
+    })
+
+    $("#pactometro2019 > #paso2 p .button").click(function() {
+        modoPactos();
+    })
+
+    $("#pactometro2019 > #paso1").click(function() {
+        if($(this).hasClass('off')) {
+            modoCongreso();
+        }
+    });
+
+    //PACTOS: CLICK EN PARTIDO
+    $("#pactometro2019 > #paso2 > .listapartidos li").click(function() {
+            //recabar datos
+            var numDiputadosSingle = parseInt($(this).find(".diputados-partido").text());
+            var childPartido = $(this).index();
+            var nombrePartido =$(this).find(".nombre-partido-short").text();
+            function getSum(total, num) {return total + num;}
+
+            //SI NO HA SIDO SELECCIONADO AUN
+            if (!$(this).hasClass("seleccionado")) {
+                    //asignar número de diputados al índice del array correspondiente al partido
+                    congresoPactos[childPartido] = numDiputadosSingle;
+                    //reset número diputados sin asignar en el pacto
+                    congresoPactos[16] = 0;
+                    //sumar en array nombres partidos
+                    partidosPactos.push(nombrePartido);
+                    $('#pactometro2019 > #visor-parlamento #recuento2 .diputados-totales').text("");
+                    $.each(partidosPactos, function(index, value){
+                        $('#pactometro2019 > #visor-parlamento #recuento2 .diputados-totales').append( '<span class="' + value + '">' + value +'</span><span class="mas"> + </span> ')
+                    });
+                    //get suma diputados partidos en el pacto
+                    congresoPactosTotal = congresoPactos.reduce(getSum);
+                    $("#pactometro2019.completado.pactos > #visor-parlamento #recuento2 #diputados-suma").text(congresoPactosTotal);
+                    //get total sin asignar
+                    congresoPactosTotalSinAsignar = 350 - congresoPactosTotal;
+                    congresoPactos[16] = congresoPactosTotalSinAsignar;
+                    //marcar como seleccionado
+                    $(this).addClass("seleccionado");
+
+            //SI YA HA SIDO SELECCIONADO
+            } else {
+                    //asignar número de diputados al índice del array correspondiente al partido
+                    congresoPactos[childPartido] = 0;
+                    //reset número diputados sin asignar en el pacto
+                    congresoPactos[16] = 0;
+                    //restar en array de nombres partidos
+                    partidosPactos = partidosPactos.filter(function(e) { return e !== nombrePartido });
+
+                    $('#pactometro2019 > #visor-parlamento .recuento .diputados-totales span.' + nombrePartido).remove();
+                    if(partidosPactos.length == 1) {$('#pactometro2019 > #visor-parlamento .recuento .diputados-totales span.mas').remove(); }
+                    //get suma diputados partidos en el pacto
+                    congresoPactosTotal = congresoPactos.reduce(getSum);
+                    $("#pactometro2019.completado.pactos > #visor-parlamento #recuento2 #diputados-suma").text(congresoPactosTotal);
+                    //get total sin asignar
+                    congresoPactosTotalSinAsignar = 350 - congresoPactosTotal;
+                    congresoPactos[16] = congresoPactosTotalSinAsignar
+                    //marcar como seleccionado
+                    $(this).removeClass("seleccionado");
+            }
+            if(partidosPactos == 0) {
+                $('#pactometro2019 > #visor-parlamento #recuento2 .diputados-totales').text("elige tus partidos");
+            }
+        //¿exito en el pacto?
+        checkViabilidadPacto(congresoPactosTotal);
+
+    cambiarDatos(myChart, congresoPactos, 0);
+
+
+    })
+
+
+
+
+    </script>
+
 </body>
 </html>

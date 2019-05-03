@@ -21,7 +21,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
 
-<style> 
+<style>
 body {margin:0 15px;}
 #pactometro2019, #pactometro2019 * {box-sizing: border-box;user-select: none;-webkit-touch-callout: none !important;-webkit-user-select: none !important;}
 #pactometro2019 {width: 100%; max-width: 1280px;margin: 0 auto; background-image: url('https://www.antena3.com/newa3flash/modulos_blancos/lasexta/pactometro2019/fondo_pactometro.jpg'); background-repeat: no-repeat;}
@@ -138,7 +138,7 @@ body {margin:0 15px;}
 #pactometro2019 > .paso ul.listapartidos .selector.partido-jerezanos:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-jerezanos.seleccionado:before {background-color: #0d6ea4}
 #pactometro2019 > .paso ul.listapartidos .selector.partido-axsi:after, #pactometro2019 > .paso ul.listapartidos .selector.partido-axsi.seleccionado:before {background-color:  #8AC13F}
 
-#pactometro2019 > .paso ul.listapartidos .selector > div{overflow:auto;border-bottom:4px solid #000;margin-top:9px} 
+#pactometro2019 > .paso ul.listapartidos .selector > div{overflow:auto;border-bottom:4px solid #000;margin-top:9px}
 #pactometro2019 > .paso ul.listapartidos .selector > div span.boton{font-family:roboto condensed;border:0;margin:0;text-transform:uppercase;padding:0;width:33.33%;float:left;height:28px;cursor:pointer;background-color:#eaeaea}
 #pactometro2019 > .paso ul.listapartidos .selector > div span.boton.activado{background-color:transparent;color:#fff;font-weight:700;text-shadow:1px 1px 1px rgba(0,0,0,0.3)}
 
@@ -237,7 +237,7 @@ body {margin:0;}
 </style>
 
 <div id="pactometro2019">
-<div> 
+<div>
     <!-- <img src="../assets/LogoOCM.png" class="img-fluid" alt="Logo OCM"> -->
     <img src="http://ocmjerez.org/repo/wp-content/uploads/2017/08/Logo-estrecho.jpg" class="img-fluid" alt="Logo OCM">
 </div>
@@ -272,7 +272,7 @@ body {margin:0;}
         <canvas id="myChart" ></canvas>
     </div>
 
-<div id="paso1" class="paso">
+<div id="paso1" class="paso" style="min-height:390px;">
     <h3><span>1</span><span>Configura la Corporación.</span></h3>
     <span class="boton" id="boton-reset" onclick="resetCongreso()">Vaciar Corporación</span>
     <p>Esta es la Corporación actual. <span class="desktop">Juega a quitar y añadir</span><span class="mobile">Quita y añade</span> concejales hasta construir tu Corporación con 27 concejales.
@@ -392,7 +392,7 @@ body {margin:0;}
 
 <script>
         const escanosIniciales = [11, 7, 5, 2, 2, 0, 0, 0, 0];
-        
+
         function cambiarDatos(chart, data, datasetIndex) {
             chart.data.datasets[datasetIndex].data = data;
             chart.update();

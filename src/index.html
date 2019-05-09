@@ -7,13 +7,17 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script> -->
+<script src="https://github.com/niklasvh/html2canvas/releases/download/v1.0.0-rc.1/html2canvas.min.js"></script>
+
+
 </head>
 <body>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
 
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -115,7 +119,7 @@ body {margin:0 15px;}
  .paso ul.listapartidos li{position: relative;transition: all .2s ease;padding: 10px 0;padding-bottom:15px;margin-top:10px; opacity:0;list-style:none;float:left;color:#fff;font-weight:700;position:relative;overflow:hidden}
  .paso ul.listapartidos li.shown {opacity:1;margin-top:0;}
  .paso ul.listapartidos li span.nombre-partido,  .paso ul.listapartidos li span.nombre-partido-short{font-size:15px; margin-bottom: 4px;}
- .paso ul.listapartidos li span{text-align:center;width:100%;display:block;color:#1d1d1d}
+ .paso ul.listapartidos li span{text-align:center;width:100px;display:block;color:#1d1d1d}
  .paso ul.listapartidos li span.diputados-partido{font-weight:300;font-size:31px}
  .paso ul.listapartidos li span.boton {position: absolute; outline: none !important;transition: all .1s ease;top: 40px; font-size: 19px; font-weight: 300;border-radius: 100px;width: 27px; height: 27px; background-color: white; color: grey; border: 2px solid #cecece;}
  .paso ul.listapartidos li span.boton:before {position: absolute;  left: -12px; top: -12px; width: calc(100% + 24px); content: "";z-index: 999;height: calc(100% + 24px);}
@@ -289,13 +293,14 @@ body {margin:0;}
     <span class="boton" id="boton-reset" onclick="resetCongreso()">Vaciar Corporación</span>
     <!-- <span class="boton" id="boton-img" onclick="takeScreenShot()">Tomar imagen</span> -->
     <!-- <span class="boton" id="boton-img">Tomar imagen</span> -->
-    <span class="boton" id="boton-img" onclick="html2canvas()">Tomar imagen</span>
+    <!-- <span class="boton" id="boton-img" onclick="html2canvas()">Tomar imagen</span> -->
+    <span class="boton" id="boton-img" onclick="takeScreenShot()">Tomar imagen</span>
 
 
     <p>Esta es la Corporación actual. <span class="desktop">Juega a quitar y añadir</span><span class="mobile">Quita y añade</span> concejales hasta construir tu Corporación con 27 concejales.
        <span class="desktop">Si prefieres empezar de cero, pulsa sobre </span><!--<span class="mobile">Si lo prefieres, puedes </span>--><br class="mobile"/>
        <span class="reset"onclick="resetCongreso()">Vaciar Corporación</span><span class="desktop">.</span></p>
-    <ul class="listapartidos dst8 dstm3">
+    <ul id="ConcejalesPorPartido" class="listapartidos dst8 dstm3">
         <li class="partido-pp selector box">
             <span class="boton restar">-</span>
             <span class="nombre-partido">PP</span>
@@ -361,7 +366,7 @@ body {margin:0;}
                 <p class="completado pactos"><span class="mobile">Es el momento de pactar: pulsa sobre cada partido hasta alcanzar mayoría absoluta (14 concejales)</span>
                   <span class="desktop">Es el momento de hacer tu pacto: simúlalo pulsando sobre cada partido hasta alcanzar mayoría absoluta (14 concejales).</span></p>
         </div>
-        <ul class="listapartidos dst16 dstm4">
+        <ul id="ConcejalesApuesta" class="listapartidos dst16 dstm4">
                 <li class="partido-pp selector box">
                     <span class="nombre-partido nombre-partido-short">PP</span>
                     <span class="diputados-partido" bind="any_name">11</span>
@@ -408,7 +413,7 @@ body {margin:0;}
 </div>
 
 <script>
-        const escanosIniciales = [11, 7, 5, 2, 2, 0, 0, 0, 0];
+        const concejalesIniciales = [11, 7, 5, 2, 2, 0, 0, 0, 0];
 
         function cambiarDatos(chart, data, datasetIndex) {
             chart.data.datasets[datasetIndex].data = data;
@@ -419,10 +424,22 @@ body {margin:0;}
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ["PP", "PSOE", "Ganemos", "Ciudadanos", "Adelante Jerez", "Vox", "Jerezanos", "AxSi", "PCPA", "Por asignar"],
+                labels: [
+                         "PP",
+                         "PSOE", 
+                         "Ganemos",
+                         "Ciudadanos", 
+                         "Adelante Jerez", 
+                         "Vox", 
+                         "Jerezanos", 
+                         "AxSi", 
+                         "PCPA", 
+                         "Por asignar"
+                        ],
+
                 datasets: [{
                     label: 'Escaños',
-                    data: escanosIniciales,
+                    data: concejalesIniciales,
                     backgroundColor: [
                         '#049CDD', //PP
                         '#DD0612', //PSOE
@@ -434,8 +451,8 @@ body {margin:0;}
                         '#8AC13F', //AxSi
                         '#D3231A', //PCPA
                         'rgba(234, 234, 234, 1)' //POR ASIGNAR
-
                     ],
+
                     borderColor: [
                         'rgba(255, 255, 255, 1)',
                         'rgba(255, 255, 255, 1)',
@@ -448,15 +465,23 @@ body {margin:0;}
                         'rgba(255, 255, 255, 1)',
                         'rgba(255, 255, 255, 1)',
                         ],
-                    borderWidth: 0
+
+                    borderWidth: 1
                 }]
             },
             options: {
                 rotation: 1 * Math.PI,
                 circumference: 1 * Math.PI,
-                legend: false
+                legend: true
             }
         });
+
+       /// Add and configure Series
+// var pieSeries =chart.series.push(new Chart.PieSeries());
+// pieSeries.dataFields.value =concejalesIniciales;
+// pieSeries.dataFields.category = myChart.labels;
+
+
 
     //MOSTRAR CAJAS PARTIDOS
     function mostrarCajasPartidos(selector) {
@@ -469,7 +494,7 @@ body {margin:0;}
     }
     mostrarCajasPartidos(" #paso1 ul.listapartidos li");
 
-    //CALCULO DIPUTADOS CONFIGURADOS
+    //CALCULO CONCEJALES CONFIGURADOS
     function GetTotalDiputados() {
         totalDiputados = 0;
         arrayDiputados = [];
@@ -733,57 +758,19 @@ body {margin:0;}
     cambiarDatos(myChart, congresoPactos, 0);
     })
 
-//     var takeScreenShot = function() {
-//     html2canvas(document.querySelector("#pactometro2019.completado"), {
-//         onrendered: function (canvas) {
-//             var tempcanvas=document.createElement('canvas');
-//             tempcanvas.width=350;
-//             tempcanvas.height=350;
-//             var context=tempcanvas.getContext('2d');
-//             context.drawImage(canvas,112,0,288,200,0,0,350,350);
-//             var link=document.createElement("a");
-//             link.href=tempcanvas.toDataURL('image/jpg');   //function blocks CORS
-//             link.download = 'imagen.jpg';
-//             link.click();
-//         }
-//     });
-// }
 
+// https://makitweb.com/take-screenshot-of-webpage-with-html2canvas/
+function takeScreenShot(){
+html2canvas(document.getElementById('ConcejalesPorPartido')).then(function(canvas) {
+  // html2canvas(document.getElementById('ConcejalesApuesta')).then(function(canvas) {
+  // html2canvas(document.querySelector('html')).then(function(canvas) {
 
-// https://stackoverflow.com/questions/31656689/how-to-save-img-to-users-local-computer-using-html2canvas
-// document.getElementById("boton-img").addEventListener("click", function() {
-
-html2canvas(document.querySelector('#myChart')).then(function(canvas) {
-
-    console.log(canvas);
-    saveAs(canvas.toDataURL(), 'file-name.png');
+// document.body.appendChild(canvas);
+var a = document.createElement("a");
+a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+a.download = "ApuestaConcejales.jpg";
+a.click();
 });
-// });
-
-
-function saveAs(uri, filename) {
-
-var link = document.createElement('a');
-
-if (typeof link.download === 'string') {
-
-    link.href = uri;
-    link.download = filename;
-
-    //Firefox requires the link to be in the body
-    document.body.appendChild(link);
-
-    //simulate click
-    link.click();
-
-    //remove the link when done
-    document.body.removeChild(link);
-
-} else {
-
-    window.open(uri);
-
-}
 }
 
 </script>

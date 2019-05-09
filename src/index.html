@@ -9,7 +9,16 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  
+
+
+
+
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -70,6 +79,10 @@ body {margin:0 15px;}
 #pactometro2019 > #paso1 {margin-top: 42px;overflow:hidden; transition: all .7s ease; height: 340px;}
 #pactometro2019 > #paso1 #boton-reset {position: absolute; right: 0; transition: opacity .5s ease;top: 85px;font-family: "roboto condensed";border: 1px solid #1d1d1d; padding: 7px 10px 5px 10px;}
 #pactometro2019 > #paso1 #boton-reset:hover {background-color: #f3f3f3; border-color:#f3f3f3; cursor:pointer;}
+
+#pactometro2019 > #paso1 #boton-img {position: left; right: 0; transition: opacity .5s ease;top: 85px;font-family: "roboto condensed";border: 1px solid #1d1d1d; padding: 7px 10px 5px 10px;}
+#pactometro2019 > #paso1 #boton-img:hover {background-color: #f3f3f3; border-color:#f3f3f3; cursor:pointer;}
+
 #pactometro2019 > #paso1.off {height: 58px; opacity: 0.2; cursor:pointer;}
 #pactometro2019 > #paso1.off #boton-reset {opacity:0;}
 #pactometro2019 > #paso1.off:hover {opacity: 1;}
@@ -199,6 +212,9 @@ body {margin:0;}
 #pactometro2019 > .paso h3 > span:last-of-type {margin-top: 34px;font-size: 19px;}
 #pactometro2019 > .paso:before {left: 0; right: 0; margin: auto; /*width: 70%*/}
 #pactometro2019 > #paso1 #boton-reset {display: none;}
+
+#pactometro2019 > #paso1 #boton-img {display: none;}
+
 #pactometro2019 > #paso1 ul.listapartidos {margin-top: 20px;}
 #pactometro2019 > #visor-parlamento #mayoria {height: 99px}
 #pactometro2019 {background-size:  800px; background-position: center -16px;}
@@ -275,6 +291,11 @@ body {margin:0;}
 <div id="paso1" class="paso" style="min-height:390px;">
     <h3><span>1</span><span>Configura la Corporación.</span></h3>
     <span class="boton" id="boton-reset" onclick="resetCongreso()">Vaciar Corporación</span>
+    <!-- <span class="boton" id="boton-img" onclick="takeScreenShot()">Tomar imagen</span> -->
+    <!-- <span class="boton" id="boton-img">Tomar imagen</span> -->
+    <span class="boton" id="boton-img" onclick="html2canvas()">Tomar imagen</span>
+
+
     <p>Esta es la Corporación actual. <span class="desktop">Juega a quitar y añadir</span><span class="mobile">Quita y añade</span> concejales hasta construir tu Corporación con 27 concejales.
        <span class="desktop">Si prefieres empezar de cero, pulsa sobre </span><!--<span class="mobile">Si lo prefieres, puedes </span>--><br class="mobile"/>
        <span class="reset"onclick="resetCongreso()">Vaciar Corporación</span><span class="desktop">.</span></p>
@@ -715,7 +736,61 @@ body {margin:0;}
 
     cambiarDatos(myChart, congresoPactos, 0);
     })
-    </script>
+
+//     var takeScreenShot = function() {
+//     html2canvas(document.querySelector("#pactometro2019.completado"), {
+//         onrendered: function (canvas) {
+//             var tempcanvas=document.createElement('canvas');
+//             tempcanvas.width=350;
+//             tempcanvas.height=350;
+//             var context=tempcanvas.getContext('2d');
+//             context.drawImage(canvas,112,0,288,200,0,0,350,350);
+//             var link=document.createElement("a");
+//             link.href=tempcanvas.toDataURL('image/jpg');   //function blocks CORS
+//             link.download = 'imagen.jpg';
+//             link.click();
+//         }
+//     });
+// }
+
+
+// https://stackoverflow.com/questions/31656689/how-to-save-img-to-users-local-computer-using-html2canvas
+// document.getElementById("boton-img").addEventListener("click", function() {
+
+html2canvas(document.querySelector('#myChart')).then(function(canvas) {
+
+    console.log(canvas);
+    saveAs(canvas.toDataURL(), 'file-name.png');
+});
+// });
+
+
+function saveAs(uri, filename) {
+
+var link = document.createElement('a');
+
+if (typeof link.download === 'string') {
+
+    link.href = uri;
+    link.download = filename;
+
+    //Firefox requires the link to be in the body
+    document.body.appendChild(link);
+
+    //simulate click
+    link.click();
+
+    //remove the link when done
+    document.body.removeChild(link);
+
+} else {
+
+    window.open(uri);
+
+}
+}
+
+</script>
 <app-root><app-root></app-root>
 </body>
 

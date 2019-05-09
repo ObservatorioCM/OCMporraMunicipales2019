@@ -8,8 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://github.com/niklasvh/html2canvas/releases/download/v1.0.0-rc.1/html2canvas.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://github.com/niklasvh/html2canvas/releases/download/v1.0.0-rc.1/html2canvas.min.js"></script>
 </head>
 <body>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
@@ -17,8 +17,8 @@
 
 <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+<link href='https://cdn.jsdelivr.net/combine/gh/ahmst/basis@1.32/grid.css,gh/ahmst/basis@1.32/classes.css' rel='stylesheet'>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/combine/gh/ahmst/basis@1.32/grid.css,gh/ahmst/basis@1.32/classes.css'/>
 <script src="https://unpkg.com/tippy.js@3/dist/tippy.all.min.js" defer=""></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
@@ -27,37 +27,37 @@
 body {margin:0 15px;}
 #pactometro2019, #pactometro2019 * {box-sizing: border-box;user-select: none;-webkit-touch-callout: none !important;-webkit-user-select: none !important;}
 #pactometro2019 {width: 100%; max-width: 1280px;margin: 0 auto; background-image: url('https://www.antena3.com/newa3flash/modulos_blancos/lasexta/pactometro2019/fondo_pactometro.jpg'); background-repeat: no-repeat;}
- #visor-corporacion {width: 100%;position: relative;height: 310px;margin-bottom: 20px;}
- #visor-corporacion #mayoria {position: absolute; width: 30px;top: -10px; left:0; right: 0; margin: auto; height: 170px;z-index:99;}
-#pactometro2019:not(.pactos) > #visor-corporacion #mayoria {pointer-events: none;}
- #visor-corporacion #mayoria:before {position: absolute; content:""; height: 0px; width:1px; top:0; bottom:0;left:0; right:0; margin: auto; background-color:#1d1d1d; z-index:9;transition: all .5s ease;}
- #visor-corporacion canvas {max-width: 620px;max-height: 320px;position: absolute; left: 0; right: 0; margin: auto;}
- #visor-corporacion .recuento {position: absolute; left: 0; right: 0; margin: auto; bottom: 0px; width: 280px;text-align: center;transition: all .3s ease;}
- #visor-corporacion .recuento #viabilidad {padding-top: 12px;align-items: flex-end;transition: .3s ease all;height: 33px; transition: all .4s ease; transition-delay: .3s;}
- #visor-corporacion .recuento #viabilidad.off {height: 0; }
- #visor-corporacion .recuento #viabilidad > div {flex-direction:unset;transition: .3s ease all;position: absolute; left: 0; right: 0;margin: auto; }
- #visor-corporacion .recuento #viabilidad > div.off {opacity: 0;transition-delay:0;}
- #visor-corporacion .recuento #viabilidad > div.on {opacity:1;transition: 1s ease all;transition-delay: .4s;}
- #visor-corporacion .recuento #viabilidad span {font-weight: 500;}
- #visor-corporacion .recuento #viabilidad #exito span {color:#709d1a;}
- #visor-corporacion .recuento #viabilidad #fracaso span {color:#E04F5F;}
- #visor-corporacion .recuento #viabilidad img {width: 15px; height: 15px;margin-right: 6px;}
- #visor-corporacion .recuento #avance {width: 190px;border-radius: 100px;border: 1px solid #dedede;overflow:hidden; height: 12px;margin: 0 auto;margin-top: 13px; position: relative; transition: .7s ease;}
- #visor-corporacion .recuento #avance #bar {width:0%; border-radius: 100px;top:0; bottom: 0; margin: auto;background-color: #e1e1e1;; transition: all .5s ease;content:""; position: absolute; }
+ #visor {width: 100%;position: relative;height: 310px;margin-bottom: 20px;}
+ #visor #mayoria {position: absolute; width: 30px;top: -10px; left:0; right: 0; margin: auto; height: 170px;z-index:99;}
+#pactometro2019:not(.pactos) > #visor #mayoria {pointer-events: none;}
+ #visor #mayoria:before {position: absolute; content:""; height: 0px; width:1px; top:0; bottom:0;left:0; right:0; margin: auto; background-color:#1d1d1d; z-index:9;transition: all .5s ease;}
+ #visor canvas {max-width: 620px;max-height: 320px;position: absolute; left: 0; right: 0; margin: auto;}
+ #visor .recuento {position: absolute; left: 0; right: 0; margin: auto; bottom: 0px; width: 280px;text-align: center;transition: all .3s ease;}
+ #visor .recuento #viabilidad {padding-top: 12px;align-items: flex-end;transition: .3s ease all;height: 33px; transition: all .4s ease; transition-delay: .3s;}
+ #visor .recuento #viabilidad.off {height: 0; }
+ #visor .recuento #viabilidad > div {flex-direction:unset;transition: .3s ease all;position: absolute; left: 0; right: 0;margin: auto; }
+ #visor .recuento #viabilidad > div.off {opacity: 0;transition-delay:0;}
+ #visor .recuento #viabilidad > div.on {opacity:1;transition: 1s ease all;transition-delay: .4s;}
+ #visor .recuento #viabilidad span {font-weight: 500;}
+ #visor .recuento #viabilidad #exito span {color:#709d1a;}
+ #visor .recuento #viabilidad #fracaso span {color:#E04F5F;}
+ #visor .recuento #viabilidad img {width: 15px; height: 15px;margin-right: 6px;}
+ #visor .recuento #avance {width: 190px;border-radius: 100px;border: 1px solid #dedede;overflow:hidden; height: 12px;margin: 0 auto;margin-top: 13px; position: relative; transition: .7s ease;}
+ #visor .recuento #avance #bar {width:0%; border-radius: 100px;top:0; bottom: 0; margin: auto;background-color: #e1e1e1;; transition: all .5s ease;content:""; position: absolute; }
 @keyframes animate-stripes {0% { background-position: 0 0;} 100% {background-position: 60px 0;}}
- #visor-corporacion .recuento #avance #bar {background-size: 15px 15px;background-image: linear-gradient( 135deg, rgba(255, 255, 255, .25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .25) 50%, rgba(255, 255, 255, .25) 75%, transparent 75%, transparent); animation: animate-stripes 0.6s linear infinite; animation-duration: 1.25s; animation-direction:normal;}
-#pactometro2019.completado > #visor-corporacion .recuento #avance #bar {background-color: #709d1a;}
-#pactometro2019.completado > #visor-corporacion .recuento #avance {border-color: #709d1a;}
-#pactometro2019.completado.pactos > #visor-corporacion .recuento #avance {border-color: transparent;}
- #visor-corporacion #recuento #avance #bar:before {position: absolute; left: 0; top:0; width:100%; height: 100%;background-color: #709d1a;opacity:0; z-index:9; transition: all .3s ease;content:"";}
-#pactometro2019.completado > #visor-corporacion #recuento #avance #bar:before {opacity: 1; transition: all .8s ease;transition-delay: .3s;}
- #visor-corporacion .recuento span {font-family: "roboto"; font-weight: 300;}
- #visor-corporacion .recuento .concejales-texto{font-size: 20px;}
- #visor-corporacion .recuento > span:first-child {font-size: 50px;display:block;width: 100%;}
- #visor-corporacion .recuento .concejales-totales {font-size: 20px;width: 100%;display:block;font-weight: 400;}
- #visor-corporacion .recuento .concejales-totales .mas:last-child {display:none;}
- #visor-corporacion .recuento .concejales-totales span {font-weight: 400;}
- #visor-corporacion #recuento2 .concejales-totales {font-size: 17px;margin-top: 2px;}
+ #visor .recuento #avance #bar {background-size: 15px 15px;background-image: linear-gradient( 135deg, rgba(255, 255, 255, .25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .25) 50%, rgba(255, 255, 255, .25) 75%, transparent 75%, transparent); animation: animate-stripes 0.6s linear infinite; animation-duration: 1.25s; animation-direction:normal;}
+#pactometro2019.completado > #visor .recuento #avance #bar {background-color: #709d1a;}
+#pactometro2019.completado > #visor .recuento #avance {border-color: #709d1a;}
+#pactometro2019.completado.pactos > #visor .recuento #avance {border-color: transparent;}
+ #visor #recuento #avance #bar:before {position: absolute; left: 0; top:0; width:100%; height: 100%;background-color: #709d1a;opacity:0; z-index:9; transition: all .3s ease;content:"";}
+#pactometro2019.completado > #visor #recuento #avance #bar:before {opacity: 1; transition: all .8s ease;transition-delay: .3s;}
+ #visor .recuento span {font-family: "roboto"; font-weight: 300;}
+ #visor .recuento .concejales-texto{font-size: 20px;}
+ #visor .recuento > span:first-child {font-size: 50px;display:block;width: 100%;}
+ #visor .recuento .concejales-totales {font-size: 20px;width: 100%;display:block;font-weight: 400;}
+ #visor .recuento .concejales-totales .mas:last-child {display:none;}
+ #visor .recuento .concejales-totales span {font-weight: 400;}
+ #visor #recuento2 .concejales-totales {font-size: 17px;margin-top: 2px;}
  .paso {position: relative; width: 100%;padding: 0 0 30px 0;overflow:hidden;}
  .paso:before {border-top: 1px dashed #737373;width:100%; content:"";height: 10px; left:0; top: 13px; position: absolute;}
  .paso h3 {font-family: "roboto condensed"; margin: 0 auto;margin-bottom: 12px;color: #1d1d1d;overflow:hidden;font-weight: 600; text-align: center; top: -13px;text-transform: uppercase;font-size: 21px; }
@@ -86,7 +86,7 @@ body {margin:0 15px;}
  .paso p .button:hover {padding-left: 40px; padding-right: 40px;}
  #paso2 > #mensajes p {position: absolute;left:0;right:0;margin:auto;width: 100%; max-width: 500px;}
 #pactometro2019:not(.completado) > #paso2 > #mensajes p.completado {opacity: 0; pointer-events: none;}
-#pactometro2019:not(.pactos) > #visor-corporacion #recuento2 {opacity: 0;pointer-events: none;}
+#pactometro2019:not(.pactos) > #visor #recuento2 {opacity: 0;pointer-events: none;}
  #paso2 > #mensajes {height: 100px;transition: all .2s ease;overflow:hidden; margin-bottom: 35px;}
 #pactometro2019.completado > #paso2 > #mensajes p.completado {opacity: 1; }
 #pactometro2019.completado > #paso2 > #mensajes p.completado.pactos {opacity: 0; pointer-events: none; }
@@ -94,12 +94,12 @@ body {margin:0 15px;}
 #pactometro2019.completado.pactos > #paso2 > #mensajes {height: 47px;}
 #pactometro2019.completado.pactos > #paso2 > #mensajes p.completado.pactos {opacity: 1;}
 #pactometro2019.completado.pactos > #paso2 > #mensajes p.completado:not(.pactos) {opacity: 0;pointer-events: none;}
-#pactometro2019.completado.pactos > #visor-corporacion #recuento #avance {width:12px;}
-#pactometro2019.completado.pactos > #visor-corporacion #recuento {opacity: 0; transition-delay: .7s;}
-#pactometro2019.completado.pactos > #visor-corporacion #recuento2 {opacity: 1; transition: .7s ease all; transition-delay: 1s; }
- #visor-corporacion #recuento2 {bottom: -2px;}
+#pactometro2019.completado.pactos > #visor #recuento #avance {width:12px;}
+#pactometro2019.completado.pactos > #visor #recuento {opacity: 0; transition-delay: .7s;}
+#pactometro2019.completado.pactos > #visor #recuento2 {opacity: 1; transition: .7s ease all; transition-delay: 1s; }
+ #visor #recuento2 {bottom: -2px;}
 #pactometro2019.completado.pactos > #paso2 ul.listapartidos li .nombre-partido:not(.nombre-partido-short) {display:none;}
-#pactometro2019.completado.pactos > #visor-corporacion #mayoria:before {height:110%; transition-delay: .7s;}
+#pactometro2019.completado.pactos > #visor #mayoria:before {height:110%; transition-delay: .7s;}
  #paso2 > .listapartidos {overflow:hidden;transition: all .2s ease;}
 #pactometro2019:not(.completado) > #paso2 {opacity:0.2 !important;height: 170px;}
 #pactometro2019:not(.pactos) > #paso2 {opacity:1;height: 170px;}
@@ -183,15 +183,15 @@ body {margin:0 15px;}
 }
 body {margin:0;}
 #pactometro2019 {padding: 0 15px;padding-top: 10px;}
- #visor-corporacion {height: 175px; transition: .2s ease all;}
-#pactometro2019.completado.pactos > #visor-corporacion {height: 200px;}
- #visor-corporacion .recuento {width: 140px;}
- #visor-corporacion canvas {width: 350px !important; max-width: unset; max-height: unset; height: 175px !important;}
- #visor-corporacion .recuento #avance {width: 100%;}
- #visor-corporacion .recuento > span:first-child {font-size: 28px; font-weight: 500;}
- #visor-corporacion .recuento .concejales-texto,  #visor-corporacion .recuento .concejales-totales {font-size: 13px !important;}
- #visor-corporacion .recuento #avance {margin-top: 5px;width: 80%}
- #visor-corporacion .recuento #avance {height: 8px}
+ #visor {height: 175px; transition: .2s ease all;}
+#pactometro2019.completado.pactos > #visor {height: 200px;}
+ #visor .recuento {width: 140px;}
+ #visor canvas {width: 350px !important; max-width: unset; max-height: unset; height: 175px !important;}
+ #visor .recuento #avance {width: 100%;}
+ #visor .recuento > span:first-child {font-size: 28px; font-weight: 500;}
+ #visor .recuento .concejales-texto,  #visor .recuento .concejales-totales {font-size: 13px !important;}
+ #visor .recuento #avance {margin-top: 5px;width: 80%}
+ #visor .recuento #avance {height: 8px}
  .paso p {font-size: 14px; line-height: 20px;}
  #paso1 {margin-top: 25px;height: 645px;padding-bottom: 0px;}
  #paso1 ul.listapartidos li {padding: 10px 0 18px 0;}
@@ -209,7 +209,7 @@ body {margin:0;}
  #paso1 #boton-img {display: none;}
 
  #paso1 ul.listapartidos {margin-top: 20px;}
- #visor-corporacion #mayoria {height: 99px}
+ #visor #mayoria {height: 99px}
 #pactometro2019 {background-size:  800px; background-position: center -16px;}
 #pactometro2019.completado.pactos > #paso2 > .listapartidos {height: unset;}
 #pactometro2019.completado > #paso2 > #mensajes p.completado {width: 300px;}
@@ -218,12 +218,12 @@ body {margin:0;}
  #paso2 ul.listapartidos li {padding: 7px 0 9px 0 !important;}
  #paso2 ul.listapartidos li span {margin-bottom: 0;}
 #pactometro2019.completado.pactos > #paso2 {margin-top: 10px;}
- #visor-corporacion .recuento .concejales-totales {font-weight: 500;}
- #visor-corporacion .recuento #viabilidad > div {font-size: 14px;}
- #visor-corporacion .recuento #viabilidad {height: 25px;}
+ #visor .recuento .concejales-totales {font-weight: 500;}
+ #visor .recuento #viabilidad > div {font-size: 14px;}
+ #visor .recuento #viabilidad {height: 25px;}
 #pactometro2019.completado.pactos > #paso2 > #mensajes p.completado {width: unset;}
  #paso2 > #mensajes {margin-bottom:15px}
- #visor-corporacion #recuento2 .concejales-totales {margin-top: 0;}
+ #visor #recuento2 .concejales-totales {margin-top: 0;}
  .paso p .button {margin-top: 14px;margin-bottom: 30px }
  #paso2 h3 {margin-bottom: 7px;}
 .swal2-popup .swal2-title {font-family: "roboto"; font-weight: 500; font-size: 18px;}
@@ -251,7 +251,7 @@ body {margin:0;}
     <img src="http://ocmjerez.org/repo/wp-content/uploads/2017/08/Logo-estrecho.jpg" class="img-fluid" alt="Logo OCM">
 </div>
 
-    <div id="visor-corporacion">
+    <div id="visor">
         <div id="mayoria" data-tippy="Mayoría absoluta: 14 concejales" data-tippy-animation="shift-away" data-tippy-arrow="true"></div>
         <div id="recuento" class="recuento">
             <span id="concejales-asignados">0</span>
@@ -472,8 +472,6 @@ body {margin:0;}
 // pieSeries.dataFields.value =concejalesIniciales;
 // pieSeries.dataFields.category = myChart.labels;
 
-
-
     //MOSTRAR CAJAS PARTIDOS
     function mostrarCajasPartidos(selector) {
         $(selector).removeClass("shown");
@@ -498,9 +496,9 @@ body {margin:0;}
         });
 
         //actualizar barra progreso
-        $(" #visor-corporacion #recuento #concejales-asignados").text(totalConcejales);
+        $(" #visor #recuento #concejales-asignados").text(totalConcejales);
         var porcentajeProgresoBarra = totalConcejales * 100 / 27;
-        $(" #visor-corporacion #recuento #avance #bar").width(porcentajeProgresoBarra + "%");
+        $(" #visor #recuento #avance #bar").width(porcentajeProgresoBarra + "%");
 
         //actualizar Corporación
         arrayConcejales.push(faltanConcejales);
@@ -636,25 +634,25 @@ body {margin:0;}
     //PACTOS: VIABILIDAD
     function checkViabilidadPacto(numeroConcejales) {
         if(numeroConcejales == 0) {
-            $(" #visor-corporacion .recuento #viabilidad").addClass("off");
-            $(" #visor-corporacion .recuento #viabilidad > div").removeClass("on").addClass("off");
+            $(" #visor .recuento #viabilidad").addClass("off");
+            $(" #visor .recuento #viabilidad > div").removeClass("on").addClass("off");
         }
         else if(numeroConcejales < 14) {
-            $(" #visor-corporacion .recuento #viabilidad").removeClass("off");
-            $(" #visor-corporacion .recuento #viabilidad #exito").removeClass("on").addClass("off");
-            $(" #visor-corporacion .recuento #viabilidad #fracaso").addClass("on").removeClass("off");
+            $(" #visor .recuento #viabilidad").removeClass("off");
+            $(" #visor .recuento #viabilidad #exito").removeClass("on").addClass("off");
+            $(" #visor .recuento #viabilidad #fracaso").addClass("on").removeClass("off");
             return "inviable";
         } else {
-            $(" #visor-corporacion .recuento #viabilidad #exito").addClass("on").removeClass("off");
-            $(" #visor-corporacion .recuento #viabilidad #fracaso").removeClass("on").addClass("off");
+            $(" #visor .recuento #viabilidad #exito").addClass("on").removeClass("off");
+            $(" #visor .recuento #viabilidad #fracaso").removeClass("on").addClass("off");
             return "viable";
         }
     };
 
     //PACTOS
     function initPactos() {
-        $("#pactometro2019.completado.pactos > #visor-corporacion #recuento2 #concejales-suma").text(0);
-        $(' #visor-corporacion #recuento2 .concejales-totales').text("elige tus partidos");
+        $("#pactometro2019.completado.pactos > #visor #recuento2 #concejales-suma").text(0);
+        $(' #visor #recuento2 .concejales-totales').text("elige tus partidos");
         $(" #paso2 ul.listapartidos li").removeClass("seleccionado");
         corporacionPactos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 27];
         partidosPactos = [];
@@ -707,13 +705,13 @@ body {margin:0;}
                     corporacionPactos[9] = 0;
                     //sumar en array nombres partidos
                     partidosPactos.push(nombrePartido);
-                    $(' #visor-corporacion #recuento2 .concejales-totales').text("");
+                    $(' #visor #recuento2 .concejales-totales').text("");
                     $.each(partidosPactos, function(index, value){
-                        $(' #visor-corporacion #recuento2 .concejales-totales').append( '<span class="' + value + '">' + value +'</span><span class="mas"> + </span> ')
+                        $(' #visor #recuento2 .concejales-totales').append( '<span class="' + value + '">' + value +'</span><span class="mas"> + </span> ')
                     });
                     //get suma concejales partidos en el pacto
                     corporacionPactosTotal = corporacionPactos.reduce(getSum);
-                    $("#pactometro2019.completado.pactos > #visor-corporacion #recuento2 #concejales-suma").text(corporacionPactosTotal);
+                    $("#pactometro2019.completado.pactos > #visor #recuento2 #concejales-suma").text(corporacionPactosTotal);
                     //get total sin asignar
                     corporacionPactosTotalSinAsignar = 27 - corporacionPactosTotal;
                     corporacionPactos[9] = corporacionPactosTotalSinAsignar;
@@ -729,11 +727,11 @@ body {margin:0;}
                     //restar en array de nombres partidos
                     partidosPactos = partidosPactos.filter(function(e) { return e !== nombrePartido });
 
-                    $(' #visor-corporacion .recuento .concejales-totales span.' + nombrePartido).remove();
-                    if(partidosPactos.length == 1) {$(' #visor-corporacion .recuento .concejales-totales span.mas').remove(); }
+                    $(' #visor .recuento .concejales-totales span.' + nombrePartido).remove();
+                    if(partidosPactos.length == 1) {$(' #visor .recuento .concejales-totales span.mas').remove(); }
                     //get suma concejales partidos en el pacto
                     corporacionPactosTotal = corporacionPactos.reduce(getSum);
-                    $("#pactometro2019.completado.pactos > #visor-corporacion #recuento2 #concejales-suma").text(corporacionPactosTotal);
+                    $("#pactometro2019.completado.pactos > #visor #recuento2 #concejales-suma").text(corporacionPactosTotal);
                     //get total sin asignar
                     corporacionPactosTotalSinAsignar = 27 - corporacionPactosTotal;
                     corporacionPactos[9] = corporacionPactosTotalSinAsignar
@@ -741,7 +739,7 @@ body {margin:0;}
                     $(this).removeClass("seleccionado");
             }
             if(partidosPactos == 0) {
-                $(' #visor-corporacion #recuento2 .concejales-totales').text("elige tus partidos");
+                $(' #visor #recuento2 .concejales-totales').text("elige tus partidos");
             }
         //¿exito en el pacto?
         checkViabilidadPacto(corporacionPactosTotal);

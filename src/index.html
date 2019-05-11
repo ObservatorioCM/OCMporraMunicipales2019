@@ -39,12 +39,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/svg4everybody/2.1.9/svg4everybody.min.js"></script>
 
 <style>
+  /* TODO: Si borro el fichero styles.css actual y copio el css del index.html se descuadran las cards con los botones de + y - */
 body {margin:0 15px;}
 
 @keyframes animate-stripes {0% { background-position: 0 0;} 100% {background-position: 60px 0;}}
 
 #pactometro2019, #pactometro2019 * {box-sizing: border-box;user-select: none;-webkit-touch-callout: none !important;-webkit-user-select: none !important;}
 #pactometro2019 {width: 100%; max-width: 1280px;margin: 0 auto;}
+ /* > significa Select all elements posteriores al signo cuyo padre es el anterior al signo. */
 #pactometro2019:not(.pactos) > #visor #mayoria {pointer-events: none;}
 #pactometro2019:not(.pactos) > #visor #recuento2 {opacity: 0;pointer-events: none;}
 #pactometro2019:not(.pactos) > #paso2 {opacity:1;height: 200px;}
@@ -56,7 +58,6 @@ body {margin:0 15px;}
 
 #pactometro2019:not(.completado) > #paso3 {opacity:0.3 !important;height: 170px;}
 #pactometro2019:not(.completado) > #paso3 > #mensajes p.completado {opacity: 0; pointer-events: none;}
-
 
 #pactometro2019.completado > #visor .recuento #avance #bar {background-color: #709d1a;}
 #pactometro2019.completado > #visor .recuento #avance {border-color: #709d1a;}
@@ -116,6 +117,10 @@ body {margin:0 15px;}
 .paso p {font-size: 15px; overflow:hidden;transition: all .3s ease;font-family: "roboto"; text-align: center;margin: 0 auto; line-height: 23px;}
 .paso p .button {background-color: #1d1d1d;cursor:pointer;margin-top:10px; color: white; transition: all .3s ease; padding: 10px 28px 8px 28px; display: inline-block; text-transform: uppercase; font-family: "roboto condensed"}
 .paso p .button:hover {padding-left: 40px; padding-right: 40px;}
+
+.paso ul.listapartidos li span.boton.restar {left: 10px;}
+.paso ul.listapartidos li span.boton.sumar {right: 10px;}
+
 .paso ul.listapartidos{margin:0; padding:0;display:block; overflow:hidden; float:unset;}
 .paso ul.listapartidos li{position: relative;transition: all .2s ease;padding: 10px 0;padding-bottom:15px;margin-top:10px; opacity:0;list-style:none;float:left;color:#fff;font-weight:700;position:relative;overflow:hidden}
 .paso ul.listapartidos li.shown {opacity:1;margin-top:0;}
@@ -138,15 +143,15 @@ body {margin:0 15px;}
 .paso ul.listapartidos .selector.seleccionado:before {height:100%;}
 .paso ul.listapartidos .selector:after {height: 5px; width: 100%; content:""; position: absolute;left:0; bottom: 0px;z-index:1;}
 .paso ul.listapartidos .selector.seleccionado:after {background-color:  rgba(0, 0, 0, 0.3) !important;}
-.paso ul.listapartidos .selector.partido-pp:after,  .paso ul.listapartidos .selector.partido-pp.seleccionado:before {background-color:  #049CDD}
-.paso ul.listapartidos .selector.partido-psoe:after,  .paso ul.listapartidos .selector.partido-psoe.seleccionado:before {background-color: #DD0612}
-.paso ul.listapartidos .selector.partido-ganemos:after,  .paso ul.listapartidos .selector.partido-ganemos.seleccionado:before {background-color: #00B9AC}
-.paso ul.listapartidos .selector.partido-ciudadanos:after,  .paso ul.listapartidos .selector.partido-ciudadanos.seleccionado:before {background-color: #F88201}
-.paso ul.listapartidos .selector.partido-vox:after,  .paso ul.listapartidos .selector.partido-vox.seleccionado:before {background-color: #92b055}
-.paso ul.listapartidos .selector.partido-adelante:after,  .paso ul.listapartidos .selector.partido-adelante.seleccionado:before {background-color: #196CAC}
-.paso ul.listapartidos .selector.partido-pcpa:after,  .paso ul.listapartidos .selector.partido-pcpa.seleccionado:before {background-color: #D3231A}
-.paso ul.listapartidos .selector.partido-jerezanos:after,  .paso ul.listapartidos .selector.partido-jerezanos.seleccionado:before {background-color: #0d6ea4}
-.paso ul.listapartidos .selector.partido-axsi:after,  .paso ul.listapartidos .selector.partido-axsi.seleccionado:before {background-color:  #8AC13F}
+.paso ul.listapartidos .selector.partido-pp:after, .paso ul.listapartidos .selector.partido-pp.seleccionado:before {background-color:  #049CDD}
+.paso ul.listapartidos .selector.partido-psoe:after, .paso ul.listapartidos .selector.partido-psoe.seleccionado:before {background-color: #DD0612}
+.paso ul.listapartidos .selector.partido-ganemos:after, .paso ul.listapartidos .selector.partido-ganemos.seleccionado:before {background-color: #00B9AC}
+.paso ul.listapartidos .selector.partido-ciudadanos:after, .paso ul.listapartidos .selector.partido-ciudadanos.seleccionado:before {background-color: #F88201}
+.paso ul.listapartidos .selector.partido-vox:after, .paso ul.listapartidos .selector.partido-vox.seleccionado:before {background-color: #92b055}
+.paso ul.listapartidos .selector.partido-adelante:after, .paso ul.listapartidos .selector.partido-adelante.seleccionado:before {background-color: #196CAC}
+.paso ul.listapartidos .selector.partido-pcpa:after, .paso ul.listapartidos .selector.partido-pcpa.seleccionado:before {background-color: #D3231A}
+.paso ul.listapartidos .selector.partido-jerezanos:after, .paso ul.listapartidos .selector.partido-jerezanos.seleccionado:before {background-color: #0d6ea4}
+.paso ul.listapartidos .selector.partido-axsi:after, .paso ul.listapartidos .selector.partido-axsi.seleccionado:before {background-color:  #8AC13F}
 .paso ul.listapartidos .selector > div{overflow:auto;border-bottom:4px solid #000;margin-top:9px}
 .paso ul.listapartidos .selector > div span.boton{font-family:roboto condensed;border:0;margin:0;text-transform:uppercase;padding:0;width:33.33%;float:left;height:28px;cursor:pointer;background-color:#eaeaea}
 .paso ul.listapartidos .selector > div span.boton.activado{background-color:transparent;color:#fff;font-weight:700;text-shadow:1px 1px 1px rgba(0,0,0,0.3)}
@@ -247,7 +252,7 @@ body {margin:0;}
 .paso:before {left: 0; right: 0; margin: auto; /*width: 70%*/}
 .paso p .button {margin-top: 14px;margin-bottom: 30px }
 
-#paso1 {margin-top: 25px;height: 645px;padding-bottom: 0px;}
+#paso1 {margin-top: 25px;height: 430px;padding-bottom: 0px;}
 #paso1 ul.listapartidos li {padding: 10px 0 18px 0;}
 #paso1 ul.listapartidos {margin-top: 20px;}
 #paso1 #boton-reset {display: none;}
@@ -294,6 +299,28 @@ margin-left: 40px;
   width: 100%;
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  background-color: rgb(234, 238, 241);
+  padding: 5px;
+}
+.grid-item {
+  /* padding: 20px; */
+  font-size: 12px;
+  text-align: center;
+}
+
+#twitter{
+  text-align: left;
+  margin-left:5px;
+}
+
+#facebook{
+  text-align: right;
+  margin-right: 5px;
+}
+
 </style>
 
 <header> 
@@ -331,6 +358,7 @@ margin-left: 40px;
                     </div>
                 </div>
         </div>
+        <!-- TODO: Etiquetar la serie y que sean visibles las etiquetas. -->
         <canvas id="myChart" ></canvas>
     </div>
 
@@ -814,19 +842,18 @@ margin-left: 40px;
 // https://makitweb.com/take-screenshot-of-webpage-with-html2canvas/
 function takeScreenShot(){
 // html2canvas(document.getElementById('ConcejalesPorPartido')).then(function(canvas) {
-  // html2canvas(document.getElementById('ConcejalesApuesta')).then(function(canvas) {
+// html2canvas(document.getElementById('ConcejalesApuesta')).then(function(canvas) {
+// html2canvas(document.getElementById('html')).then(function(canvas) {
     
+// TODO: Grabar parte de la pantalla en función si se ha abierto un pacto o no.
 let p1 = document.getElementById("paso1");
 p1.style.display = "none"
 let p3 = document.getElementById("paso3");
 p3.style.display = "none"
 let fo = document.getElementById("footer");
 fo.style.visibility = "hidden"
-  html2canvas(document.querySelector('html')).then(function(canvas) {
-
+  html2canvas(document.querySelector('body')).then(function(canvas) {
 // document.body.appendChild(canvas);
-
-
 var a = document.createElement("a");
 a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
 a.download = "ApuestaConcejales.jpg";
@@ -842,47 +869,51 @@ fo.style.visibility = "visible";
 <app-root><app-root></app-root>
 </body>
 
-<footer>
-    <div id="footer" class="row justify-content-center">
-
-      <div class="col-4">
-        <p>
-          <span>© </span>
-          <span>2019 OCM Jerez. Ver 1.01.00</span>
-        </p>
-      </div>
-
-      <!-- <div class="col-4">
-        <a href="https://www.facebook.com/OcmJerez/" class="rk-social-btn ">
-          <svg>
-            <use xlink:href="symbols.svg#icon-facebook"></use>
-          </svg>
-        </a>
-        <a href="https://twitter.com/ocmjerez" class="rk-social-btn ">
-          <svg>
-            <use xlink:href="symbols.svg#icon-twitter"></use>
-          </svg>
-        </a>
-      </div> -->
-
-      <div class="col-4">
-          <p>
-            <a href="https://www.facebook.com/OcmJerez">Facebook</a>
-            <span>_______</span>
-            <a href="https://twitter.com/ocmjerez">Twitter</a>
-          </p>
+  <footer>
+      <div id="footer" class="grid-container">
+  
+        <div class="grid-item">
+         
+            <span>© </span>
+            <span>2019 OCM Jerez. Ver 1.01.00</span>
+         
         </div>
+  
+        <!-- TODO: NO funcionan los iconos en SVG -->
+        <!-- <div class="col-4">
+          <a href="https://www.facebook.com/OcmJerez/" class="rk-social-btn ">
+            <svg>
+              <use xlink:href="symbols.svg#icon-facebook"></use>
+            </svg>
+          </a>
+          <a href="https://twitter.com/ocmjerez" class="rk-social-btn ">
+            <svg>
+              <use xlink:href="symbols.svg#icon-twitter"></use>
+            </svg>
+          </a>
+        </div> -->
+  
+        <div id="facebook" class="grid-item">
+          
+              <a href="https://www.facebook.com/OcmJerez" target="_blank">Facebook</a>
+          
+          </div>
 
-      <div class="col-4">
-        <p>
-          <span>Email: </span>
-          <span>
-            <a href="mailto:info@ocmjerez.org">info@ocmjerez.org</a>
-          </span>
-        </p>
+          <div id="twitter" class="grid-item">
+             
+                <a href="https://twitter.com/ocmjerez" target="_blank">Twitter</a>
+            
+            </div>
+  
+        <div class="grid-item">
+        
+            <span>Email: </span>
+            <span>
+              <a href="mailto:info@ocmjerez.org">info@ocmjerez.org</a>
+            </span>
+         
+        </div>
       </div>
-    </div>
-
-  </footer>
-
-</html>
+    </footer>
+  
+    </html>

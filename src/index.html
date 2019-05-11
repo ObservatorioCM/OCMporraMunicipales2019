@@ -50,9 +50,14 @@ body {margin:0 15px;}
 #pactometro2019:not(.pactos) > #paso2 {opacity:1;height: 200px;}
 #pactometro2019:not(.pactos) > #paso2 ul.listapartidos {opacity:0;}
 #pactometro2019.pactos > #paso2 ul.listapartidos {opacity:1; transition-delay: .3s;}
-#pactometro2019:not(.completado) > #paso2 {opacity:0.2 !important;height: 170px;}
-#pactometro2019:not(.completado) > #paso2 {opacity: 0.3}
+#pactometro2019:not(.completado) > #paso2 {opacity:0.3 !important;height: 170px;}
+/* #pactometro2019:not(.completado) > #paso2 {opacity: 0.3} */
 #pactometro2019:not(.completado) > #paso2 > #mensajes p.completado {opacity: 0; pointer-events: none;}
+
+#pactometro2019:not(.completado) > #paso3 {opacity:0.3 !important;height: 170px;}
+#pactometro2019:not(.completado) > #paso3 > #mensajes p.completado {opacity: 0; pointer-events: none;}
+
+
 #pactometro2019.completado > #visor .recuento #avance #bar {background-color: #709d1a;}
 #pactometro2019.completado > #visor .recuento #avance {border-color: #709d1a;}
 #pactometro2019.completado.pactos > #visor .recuento #avance {border-color: transparent;}
@@ -60,6 +65,11 @@ body {margin:0 15px;}
 #pactometro2019.completado > #paso2 > #mensajes p.completado {opacity: 1; }
 #pactometro2019.completado > #paso2 > #mensajes p.completado.pactos {opacity: 0; pointer-events: none; }
 #pactometro2019.completado > #paso2 > #mensajes p.no-completado {opacity: 0; pointer-events: none;}
+
+#pactometro2019.completado > #paso3 > #mensajes p.completado {opacity: 1; }
+#pactometro2019.completado > #paso3 > #mensajes p.completado.pactos {opacity: 0; pointer-events: none; }
+#pactometro2019.completado > #paso3 > #mensajes p.no-completado {opacity: 0; pointer-events: none;}
+
 #pactometro2019.completado.pactos > #paso2 > #mensajes {height: 47px;}
 #pactometro2019.completado.pactos > #paso2 > #mensajes p.completado.pactos {opacity: 1;}
 #pactometro2019.completado.pactos > #paso2 > #mensajes p.completado:not(.pactos) {opacity: 0;pointer-events: none;}
@@ -70,7 +80,7 @@ body {margin:0 15px;}
 #pactometro2019.completado.pactos > #visor #mayoria:before {height:110%; transition-delay: .7s;}
 #pactometro2019.completado.pactos > #paso2 > .listapartidos {height: 76px;transition-delay: .3s; }
 
-#visor {width: 100%;position: relative;height: 310px;margin-bottom: 20px;}
+#visor {width: 100%;position: relative;height: 310px;margin-bottom: 20px;margin-top: 20px;}
 #visor #mayoria {position: absolute; width: 30px;top: -10px; left:0; right: 0; margin: auto; height: 170px;z-index:99;}
 #visor #mayoria:before {position: absolute; content:""; height: 0px; width:1px; top:0; bottom:0;left:0; right:0; margin: auto; background-color:#1d1d1d; z-index:9;transition: all .5s ease;}
 #visor canvas {max-width: 620px;max-height: 320px;position: absolute; left: 0; right: 0; margin: auto;}
@@ -391,18 +401,7 @@ margin-left: 40px;
 </div>
 
 <div id="paso2" class="paso">
-        <h3><span>2</span><span>Toma una imagen para compartir</span></h3>
-        <div id="mensajes">
-                <p class="no-completado">Podrás tomar una imagen para compartir una vez hayas configurado la Corporación al completo (27 concejales).</p>
-                <p class="completado">Ahora que todos los concejales están asignados, puedes guardar una imagen con tu predicción.<br/><span class="button" id="boton-img" onclick="takeScreenShot()">Tomar imagen</span></p>
-                  
-                <!-- <p class="completado pactos"><span class="mobile">Es el momento de pactar: pulsa sobre cada partido hasta alcanzar mayoría absoluta (14 concejales)</span>
-                  <span class="desktop">Es el momento de hacer tu pacto: simúlalo pulsando sobre cada partido hasta alcanzar mayoría absoluta (14 concejales).</span></p> -->
-        </div>
-</div>
-
-<div id="paso2" class="paso">
-    <h3><span>3</span><span>Simula un pacto</span></h3>
+    <h3><span>2</span><span>Simula un pacto</span></h3>
     <div id="mensajes">
             <p class="no-completado">Podrás simular tu pacto de Gobierno una vez hayas configurado la Corporación al completo (27 concejales).</p>
             <p class="completado">Ahora que todos los concejales están asignados, estás listo para pactar.<br/><span class="button">Empezar</span></span></p>
@@ -410,48 +409,61 @@ margin-left: 40px;
               <span class="desktop">Es el momento de hacer tu pacto: simúlalo pulsando sobre cada partido hasta alcanzar mayoría absoluta (14 concejales).</span></p>
     </div>
 
-    <ul id="ConcejalesApuesta" class="listapartidos dst16 dstm4" style="min-height:80px;">
-            <li class="partido-pp selector box" style="min-height:80px;">
+    <ul id="ConcejalesApuesta" class="listapartidos dst16 dstm4 row d-flex justify-content-center" style="min-height:80px;">
+            <li class="partido-pp selector box" style="min-height:80px;; min-width:80px;">
                 <span class="nombre-partido nombre-partido-short">PP</span>
                 <span class="concejales-partido" bind="any_name">11</span>
             </li>
-            <li class="partido-psoe selector box" style="min-height:80px;">
+            <li class="partido-psoe selector box" style="min-height:80px;; min-width:80px;">
                 <span class="nombre-partido nombre-partido-short">PSOE</span>
                 <span class="concejales-partido">7</span>
             </li>
-            <li class="partido-ganemos selector box" style="min-height:80px;">
+            <li class="partido-ganemos selector box" style="min-height:80px;; min-width:80px;">
                 <span class="nombre-partido">Ganemos</span>
                 <span class="nombre-partido-short">Ganemos</span>
                 <span class="concejales-partido">5</span>
             </li>
-            <li class="partido-ciudadanos selector box" style="min-height:80px;">
+            <li class="partido-ciudadanos selector box" style="min-height:80px; min-width:80px;">
                 <span class="nombre-partido">Ciudadanos</span>
-                <span class="nombre-partido-short">Cs</span>
+                <span class="nombre-partido-short">Ciudadanos</span>
                 <span class="concejales-partido">2</span>
             </li>
-            <li class="partido-adelante selector box" style="min-height:80px;">
+            <li class="partido-adelante selector box" style="min-height:80px;; min-width:80px;">
                 <span class="nombre-partido nombre-partido-short">Adelante</span>
                 <span class="concejales-partido">2</span>
             </li>
-            <li class="partido-vox selector box" style="min-height:80px;">
+            <li class="partido-vox selector box" style="min-height:80px;; min-width:80px;">
                 <span class="nombre-partido nombre-partido-short">Vox</span>
                 <span class="concejales-partido">0</span>
             </li>
-            <li class="partido-jerezanos selector box" style="min-height:80px;">
+            <li class="partido-jerezanos selector box" style="min-height:80px;; min-width:80px;">
                 <span class="nombre-partido nombre-partido-short">Jerezanos</span>
                 <span class="concejales-partido">0</span>
             </li>
-            <li class="partido-axsi selector box" style="min-height:80px;">
+            <li class="partido-axsi selector box" style="min-height:80px;; min-width:80px;">
                 <span class="nombre-partido nombre-partido-short">AxSi</span>
                 <span class="concejales-partido">0</span>
             </li>
-            <li class="partido-pcpa selector box" style="min-height:80px;">
+            <li class="partido-pcpa selector box" style="min-height:80px;; min-width:80px;">
                 <span class="nombre-partido">PCPA</span>
                 <span class="nombre-partido nombre-partido-short">PCPA</span>
                 <span class="concejales-partido">0</span>
             </li>
         </ul>
 </div>
+
+<div id="paso3" class="paso">
+  <h3><span>3</span><span>Toma una imagen para compartir</span></h3>
+  <div id="mensajes">
+          <p class="no-completado">Podrás tomar una imagen para compartir una vez hayas configurado la Corporación al completo (27 concejales).</p>
+          <p class="completado">Ahora que todos los concejales están asignados, puedes guardar una imagen con tu predicción.<br/><span class="button" id="boton-img" onclick="takeScreenShot()">Tomar imagen</span></p>
+            
+          <!-- <p class="completado pactos"><span class="mobile">Es el momento de pactar: pulsa sobre cada partido hasta alcanzar mayoría absoluta (14 concejales)</span>
+            <span class="desktop">Es el momento de hacer tu pacto: simúlalo pulsando sobre cada partido hasta alcanzar mayoría absoluta (14 concejales).</span></p> -->
+  </div>
+
+</div>
+
 
 </div>
 
@@ -801,15 +813,28 @@ margin-left: 40px;
 
 // https://makitweb.com/take-screenshot-of-webpage-with-html2canvas/
 function takeScreenShot(){
-html2canvas(document.getElementById('ConcejalesPorPartido')).then(function(canvas) {
+// html2canvas(document.getElementById('ConcejalesPorPartido')).then(function(canvas) {
   // html2canvas(document.getElementById('ConcejalesApuesta')).then(function(canvas) {
-  // html2canvas(document.querySelector('html')).then(function(canvas) {
+    
+let p1 = document.getElementById("paso1");
+p1.style.display = "none"
+let p3 = document.getElementById("paso3");
+p3.style.display = "none"
+let fo = document.getElementById("footer");
+fo.style.visibility = "hidden"
+  html2canvas(document.querySelector('html')).then(function(canvas) {
 
 // document.body.appendChild(canvas);
+
+
 var a = document.createElement("a");
 a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
 a.download = "ApuestaConcejales.jpg";
 a.click();
+p1.style.display = "block";
+p3.style.display = "block";
+fo.style.visibility = "visible";
+
 });
 }
 
@@ -818,7 +843,7 @@ a.click();
 </body>
 
 <footer>
-    <div class="row justify-content-center">
+    <div id="footer" class="row justify-content-center">
 
       <div class="col-4">
         <p>

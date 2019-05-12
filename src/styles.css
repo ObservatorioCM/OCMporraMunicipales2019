@@ -171,7 +171,7 @@ body {margin:0;}
 #pactometro2019 > #visor-parlamento .recuento #avance {margin-top: 5px;width: 80%}
 #pactometro2019 > #visor-parlamento .recuento #avance {height: 8px}
 #pactometro2019 > .paso p {font-size: 14px; line-height: 20px;}
-#pactometro2019 > #paso1 {margin-top: 25px;height: 430px;padding-bottom: 0px;}
+#pactometro2019 > #paso1 {margin-top: 25px;height: 330px;padding-bottom: 0px;}
 #pactometro2019 > #paso1 ul.listapartidos li {padding: 10px 0 18px 0;}
 #pactometro2019 > .paso ul.listapartidos li span.boton.restar {left: 10px;}
 #pactometro2019 > .paso ul.listapartidos li span.boton.sumar {right: 10px;}

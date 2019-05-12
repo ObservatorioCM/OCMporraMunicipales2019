@@ -210,6 +210,8 @@ tippy-popper {font-family: "roboto condensed"}
 .mobile {display: none !important;}
 }
 
+
+/* TODO: Con menos de 1024px las cards de los partidos son demaisiado anchas. */
 @media(max-width: 1024px) {
 :root {
 --margenesBox: 8px;
@@ -252,7 +254,7 @@ body {margin:0;}
 .paso:before {left: 0; right: 0; margin: auto; /*width: 70%*/}
 .paso p .button {margin-top: 14px;margin-bottom: 30px }
 
-#paso1 {margin-top: 25px;height: 430px;padding-bottom: 0px;}
+#paso1 {margin-top: 25px;height: 330px;padding-bottom: 0px;}
 #paso1 ul.listapartidos li {padding: 10px 0 18px 0;}
 #paso1 ul.listapartidos {margin-top: 20px;}
 #paso1 #boton-reset {display: none;}
@@ -269,7 +271,8 @@ body {margin:0;}
 .swal2-popup #swal2-content {padding: 0px;}
 }
 
-@media (min-width:1000px) {
+/* TODO: No entiendo este codigo. */
+@media (min-width:900px) {
     .dst8 > .box {width: calc(calc(100% / 8) - calc(var(--margenesBox) * 7 / 8));}
     .dst8.m2 > .box {width: calc(calc(100% / 8) - calc(var(--margenesBox2) * 7 / 8));}
     .dst8 > .box:nth-child(8n) {margin-right: 0;}

@@ -24,7 +24,7 @@
         type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
 </head>
- 
+
 <body>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,6 +41,11 @@
 <style>
   /* TODO: Si borro el fichero styles.css actual y copio el css del index.html se descuadran las cards con los botones de + y - */
 body {margin:0 15px;}
+
+#logoOCM{
+  width: 345px;
+  height:75px;
+}
 
 @keyframes animate-stripes {0% { background-position: 0 0;} 100% {background-position: 60px 0;}}
 
@@ -233,7 +238,7 @@ body {margin:0;}
 #visor canvas {width: 350px !important; max-width: unset; max-height: unset; height: 175px !important;}
 #visor .recuento #avance {width: 100%;}
 #visor .recuento > span:first-child {font-size: 28px; font-weight: 500;}
-#visor .recuento .concejales-texto,  #visor .recuento .concejales-totales {font-size: 13px !important;}
+#visor .recuento .concejales-texto,  #visor .recuento .concejales-totales {font-weight: 500;font-size: 13px !important;}
 #visor .recuento #avance {margin-top: 5px;width: 80%}
 #visor .recuento #avance {height: 8px}
 #visor .recuento .concejales-totales {font-weight: 500;}
@@ -282,6 +287,13 @@ body {margin:0;}
     .dst16 > .box:nth-child(16n) {margin-right: 0;}
 }
 
+header .grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: rgb(234, 238, 241);
+  padding: 10px;
+}
+
 footer{
 margin-top: 40px;
 margin-left: 40px;
@@ -302,13 +314,14 @@ margin-left: 40px;
   width: 100%;
 }
 
-.grid-container {
+footer .grid-container {
   display: grid;
   grid-template-columns: auto auto auto auto;
   background-color: rgb(234, 238, 241);
   padding: 5px;
 }
-.grid-item {
+
+footer .grid-item {
   /* padding: 20px; */
   font-size: 12px;
   text-align: center;
@@ -326,12 +339,32 @@ margin-left: 40px;
 
 </style>
 
-<header> 
-<div>
-    <!-- <img src="../assets/LogoOCM.png" class="img-fluid" alt="Logo OCM"> -->
-    <img src="http://ocmjerez.org/repo/wp-content/uploads/2017/08/Logo-estrecho.jpg" class="img-fluid" alt="Logo OCM">
-</div>
-</header>   
+<header>
+    <div id="header" class="grid-container">
+          <div class="grid-item">
+            <!-- TODO: No usa imagenes de la ruta local. -->
+            <!-- <img src="LogoOCMtransparente.png"  alt="Logo OCM"> -->
+    <img id="logoOCM" src="http://ocmjerez.org/repo/wp-content/uploads/2017/08/Logo-estrecho.jpg" alt="Logo OCM">
+          </div>
+
+            <!-- AddToAny BEGIN -->
+<div class="grid-item a2a_kit a2a_kit_size_32 a2a_default_style d-flex justify-content-end">
+  <!-- TODO: Da error en Facebook en href -->
+    <a class="a2a_dd" href="http://www.ocmjerez.org/pactometro/"></a>
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_email"></a>
+    <a class="a2a_button_whatsapp"></a>
+    <a class="a2a_button_telegram"></a>
+    </div>
+    <script>
+    var a2a_config = a2a_config || {};
+    a2a_config.locale = "es";
+    </script>
+    <script async src="https://static.addtoany.com/menu/page.js"></script>
+    <!-- AddToAny END -->
+        </div>
+</header>
 
 <div id="pactometro2019">
     <div id="visor">
@@ -368,11 +401,11 @@ margin-left: 40px;
 <div id="paso1" class="paso" style="min-height:400px;">
     <h3><span>1</span><span>Configura la Corporación.</span></h3>
     <span class="boton" id="boton-reset" onclick="resetCorporacion()">Vaciar Corporación</span>
-   
+
     <p>Esta es la Corporación actual. <span class="desktop">Juega a quitar y añadir</span><span class="mobile">Quita y añade</span> concejales hasta construir tu Corporación con 27 concejales.
        <span class="desktop">Si prefieres empezar de cero, pulsa sobre </span><!--<span class="mobile">Si lo prefieres, puedes </span>--><br class="mobile"/>
        <span class="reset"onclick="resetCorporacion()">Vaciar Corporación</span><span class="desktop">.</span></p>
-    
+
        <ul id="ConcejalesPorPartido" class="listapartidos dst8 dstm3">
         <li class="partido-pp selector box">
             <span class="boton restar">-</span>
@@ -486,9 +519,11 @@ margin-left: 40px;
 <div id="paso3" class="paso">
   <h3><span>3</span><span>Toma una imagen para compartir</span></h3>
   <div id="mensajes">
-          <p class="no-completado">Podrás tomar una imagen para compartir una vez hayas configurado la Corporación al completo (27 concejales).</p>
+          <p class="no-completado">Podrás tomar una imagen para compartir una vez hayas configurado la Corporación al completo (27 concejales)
+              y configurado un pacto viable (al menos 14 concejales).    
+          </p>
           <p class="completado">Ahora que todos los concejales están asignados, puedes guardar una imagen con tu predicción.<br/><span class="button" id="boton-img" onclick="takeScreenShot()">Tomar imagen</span></p>
-            
+
           <!-- <p class="completado pactos"><span class="mobile">Es el momento de pactar: pulsa sobre cada partido hasta alcanzar mayoría absoluta (14 concejales)</span>
             <span class="desktop">Es el momento de hacer tu pacto: simúlalo pulsando sobre cada partido hasta alcanzar mayoría absoluta (14 concejales).</span></p> -->
   </div>
@@ -847,7 +882,7 @@ function takeScreenShot(){
 // html2canvas(document.getElementById('ConcejalesPorPartido')).then(function(canvas) {
 // html2canvas(document.getElementById('ConcejalesApuesta')).then(function(canvas) {
 // html2canvas(document.getElementById('html')).then(function(canvas) {
-    
+
 // TODO: Grabar parte de la pantalla en función si se ha abierto un pacto o no.
 let p1 = document.getElementById("paso1");
 p1.style.display = "none"
@@ -874,15 +909,15 @@ fo.style.visibility = "visible";
 
   <footer>
       <div id="footer" class="grid-container">
-  
+
         <div class="grid-item">
-         
+
             <span>© </span>
             <span>2019 OCM Jerez. Ver 1.01.00</span>
-         
+
         </div>
-  
-        <!-- TODO: NO funcionan los iconos en SVG -->
+
+        <!-- TODO: No funcionan los iconos en SVG -->
         <!-- <div class="col-4">
           <a href="https://www.facebook.com/OcmJerez/" class="rk-social-btn ">
             <svg>
@@ -895,28 +930,28 @@ fo.style.visibility = "visible";
             </svg>
           </a>
         </div> -->
-  
+
         <div id="facebook" class="grid-item">
-          
+
               <a href="https://www.facebook.com/OcmJerez" target="_blank">Facebook</a>
-          
+
           </div>
 
           <div id="twitter" class="grid-item">
-             
+
                 <a href="https://twitter.com/ocmjerez" target="_blank">Twitter</a>
-            
+
             </div>
-  
+
         <div class="grid-item">
-        
+
             <span>Email: </span>
             <span>
               <a href="mailto:info@ocmjerez.org">info@ocmjerez.org</a>
             </span>
-         
+
         </div>
       </div>
     </footer>
-  
+
     </html>

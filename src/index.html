@@ -68,6 +68,7 @@ body {margin:0 15px;}
 #pactometro2019.completado > #visor .recuento #avance {border-color: #709d1a;}
 #pactometro2019.completado.pactos > #visor .recuento #avance {border-color: transparent;}
 #pactometro2019.completado > #visor #recuento #avance #bar:before {opacity: 1; transition: all .8s ease;transition-delay: .3s;}
+
 #pactometro2019.completado > #paso2 > #mensajes p.completado {opacity: 1; }
 #pactometro2019.completado > #paso2 > #mensajes p.completado.pactos {opacity: 0; pointer-events: none; }
 #pactometro2019.completado > #paso2 > #mensajes p.no-completado {opacity: 0; pointer-events: none;}
@@ -79,6 +80,7 @@ body {margin:0 15px;}
 #pactometro2019.completado.pactos > #paso2 > #mensajes {height: 47px;}
 #pactometro2019.completado.pactos > #paso2 > #mensajes p.completado.pactos {opacity: 1;}
 #pactometro2019.completado.pactos > #paso2 > #mensajes p.completado:not(.pactos) {opacity: 0;pointer-events: none;}
+
 #pactometro2019.completado.pactos > #visor #recuento #avance {width:12px;}
 #pactometro2019.completado.pactos > #visor #recuento {opacity: 0; transition-delay: .7s;}
 #pactometro2019.completado.pactos > #visor #recuento2 {opacity: 1; transition: .7s ease all; transition-delay: 1s; }
@@ -123,12 +125,24 @@ body {margin:0 15px;}
 .paso p .button {background-color: #1d1d1d;cursor:pointer;margin-top:10px; color: white; transition: all .3s ease; padding: 10px 28px 8px 28px; display: inline-block; text-transform: uppercase; font-family: "roboto condensed"}
 .paso p .button:hover {padding-left: 40px; padding-right: 40px;}
 
+/* Creo Class "imagen" que sustituye a "paso" para poder tratarlo de diferente forma. */
+.imagen {position: relative; width: 100%;padding: 0 0 30px 0;overflow:hidden;}
+.imagen:before {border-top: 1px dashed #737373;width:100%; content:"";height: 10px; left:0; top: 13px; position: absolute;}
+.imagen h3 {font-family: "roboto condensed"; margin: 0 auto;margin-bottom: 12px;color: #1d1d1d;overflow:hidden;font-weight: 600; text-align: center; top: -13px;text-transform: uppercase;font-size: 21px; }
+.imagen h3 > span:first-child {background-color: #1d1d1d; top:0px; position: absolute; left: 0; right: 0; margin: auto; border-radius: 100px;color: white; width: 24px; height: 24px; overflow:hidden;font-size: 15px;line-height: 26px;}
+.imagen h3 > span {display:inline-block;width: 100%; }
+.imagen h3 > span:last-of-type {line-height: 20px; margin-top: 39px;}
+.imagen p {font-size: 15px; overflow:hidden;transition: all .3s ease;font-family: "roboto"; text-align: center;margin: 0 auto; line-height: 23px;}
+.imagen p .button {background-color: #1d1d1d;cursor:pointer;margin-top:10px; color: white; transition: all .3s ease; padding: 10px 28px 8px 28px; display: inline-block; text-transform: uppercase; font-family: "roboto condensed"}
+.imagen p .button:hover {padding-left: 40px; padding-right: 40px;}
+
 .paso ul.listapartidos li span.boton.restar {left: 10px;}
 .paso ul.listapartidos li span.boton.sumar {right: 10px;}
-
 .paso ul.listapartidos{margin:0; padding:0;display:block; overflow:hidden; float:unset;}
 .paso ul.listapartidos li{position: relative;transition: all .2s ease;padding: 10px 0;padding-bottom:15px;margin-top:10px; opacity:0;list-style:none;float:left;color:#fff;font-weight:700;position:relative;overflow:hidden}
+
 .paso ul.listapartidos li.shown {opacity:1;margin-top:0;}
+
 .paso ul.listapartidos li span.nombre-partido,  .paso ul.listapartidos li span.nombre-partido-short{font-size:15px; margin-bottom: 4px;}
 .paso ul.listapartidos li span{text-align:center;width:100px;display:block;color:#1d1d1d}
 .paso ul.listapartidos li span.concejales-partido{font-weight:300;font-size:31px}
@@ -167,9 +181,12 @@ body {margin:0 15px;}
 #paso1 #boton-reset:hover {background-color: #f3f3f3; border-color:#f3f3f3; cursor:pointer;}
 #paso1 #boton-img {position: left; right: 0; transition: opacity .5s ease;top: 85px;font-family: "roboto condensed";border: 1px solid #1d1d1d; padding: 7px 10px 5px 10px;}
 #paso1 #boton-img:hover {background-color: #f3f3f3; border-color:#f3f3f3; cursor:pointer;}
+
+/* Se usa para difuminar el paso 1 */
 #paso1.off {height: 58px; opacity: 0.2; cursor:pointer;}
 #paso1.off #boton-reset {opacity:0;}
 #paso1.off:hover {opacity: 1;}
+
 #paso1 p {max-width: 600px;}
 #paso1 p span.reset {display:inline-block; border-bottom: 1px dotted #1d1d1d; cursor: pointer;}
 #paso1 ul.listapartidos {margin-top: 30px;}
@@ -516,10 +533,10 @@ footer .grid-item {
         </ul>
 </div>
 
-<div id="paso3" class="paso">
+<div id="paso3" class="imagen">
   <h3><span>3</span><span>Toma una imagen para compartir</span></h3>
   <div id="mensajes">
-          <p class="no-completado">Podrás tomar una imagen para compartir una vez hayas configurado la Corporación al completo (27 concejales)  
+          <p class="no-completado">Podrás tomar una imagen para compartir una vez hayas configurado la Corporación al completo (27 concejales)
              y configurado un pacto viable (al menos 14 concejales).
           </p>
           <p class="completado">Ahora que todos los concejales están asignados, puedes guardar una imagen con tu predicción.<br/><span class="button" id="boton-img" onclick="takeScreenShot()">Tomar imagen</span></p>
@@ -732,34 +749,33 @@ footer .grid-item {
         }
     });
 
-                //LONG PRESS
-                !function(o){o.fn.longpress=function(e,n,t){return void 0===t&&(t=500),this.each(function(){var u,i,r=o(this);function c(n){u=(new Date).getTime();var r=o(this);i=setTimeout(function(){"function"==typeof e?e.call(r,n):o.error("Callback required for long press. You provided: "+typeof e)},t)}function s(e){(new Date).getTime()-u<t&&(clearTimeout(i),"function"==typeof n?n.call(o(this),e):void 0===n||o.error("Optional callback for short press should be a function."))}function a(o){clearTimeout(i)}r.on("mousedown",c),r.on("mouseup",s),r.on("mousemove",a),r.on("touchstart",c),r.on("touchend",s),r.on("touchmove",a)})}}(jQuery);
+    //LONG PRESS
+    !function(o){o.fn.longpress=function(e,n,t){return void 0===t&&(t=500),this.each(function(){var u,i,r=o(this);function c(n){u=(new Date).getTime();var r=o(this);i=setTimeout(function(){"function"==typeof e?e.call(r,n):o.error("Callback required for long press. You provided: "+typeof e)},t)}function s(e){(new Date).getTime()-u<t&&(clearTimeout(i),"function"==typeof n?n.call(o(this),e):void 0===n||o.error("Optional callback for short press should be a function."))}function a(o){clearTimeout(i)}r.on("mousedown",c),r.on("mouseup",s),r.on("mousemove",a),r.on("touchstart",c),r.on("touchend",s),r.on("touchmove",a)})}}(jQuery);
+    var interval;
+    $(' #paso1 ul.listapartidos li span.boton').longpress(function() {
+        var thislongpress = $(this);
+        var partidoClass = $(this).parent().attr('class').split(' ')[0];
+        function performWhileMouseDown() {
+            //definir operacion
+            if(thislongpress.hasClass("sumar")) {
+                operacion = "sumar";
+            } else {operacion = "restar";}
+            //ejecutar
+            if((totalConcejales == 27) && (operacion == "sumar")) {
+                clearInterval(interval);
+                showError("completado");
+            } else if ((thislongpress.parent().find(".concejales-partido").text() == 0) && (operacion == "restar")) {
+                clearInterval(interval);
+                showError("minimo");
+            } else {asignarConcejales(operacion, partidoClass);}
+        }
+        interval = setInterval(performWhileMouseDown, 20);
+    }).bind( "mouseup touchend", function(){
+        clearInterval(interval);
+    }).bind( "mousedown touchstart", function(){
+    });
 
-                var interval;
-                $(' #paso1 ul.listapartidos li span.boton').longpress(function() {
-                    var thislongpress = $(this);
-                    var partidoClass = $(this).parent().attr('class').split(' ')[0];
-                    function performWhileMouseDown() {
-                        //definir operacion
-                        if(thislongpress.hasClass("sumar")) {
-                            operacion = "sumar";
-                        } else {operacion = "restar";}
-                        //ejecutar
-                        if((totalConcejales == 27) && (operacion == "sumar")) {
-                            clearInterval(interval);
-                            showError("completado");
-                        } else if ((thislongpress.parent().find(".concejales-partido").text() == 0) && (operacion == "restar")) {
-                            clearInterval(interval);
-                            showError("minimo");
-                        } else {asignarConcejales(operacion, partidoClass);}
-                    }
-                    interval = setInterval(performWhileMouseDown, 20);
-                }).bind( "mouseup touchend", function(){
-                    clearInterval(interval);
-                }).bind( "mousedown touchstart", function(){
-                });
-
-    //PACTOS: VIABILIDAD
+    // PACTOS: VIABILIDAD
     function checkViabilidadPacto(numeroConcejales) {
         if(numeroConcejales == 0) {
             $(" #visor .recuento #viabilidad").addClass("off");
@@ -777,16 +793,18 @@ footer .grid-item {
         }
     };
 
-    //PACTOS
+    // PACTOS
     function initPactos() {
         $("#pactometro2019.completado.pactos > #visor #recuento2 #concejales-suma").text(0);
-        $(' #visor #recuento2 .concejales-totales').text("elige tus partidos");
+        $(' #visor #recuento2 .concejales-totales').text("Elige tus partidos");
+        // Remueve la frase de espera y el botón "EMPEZAR"
         $(" #paso2 ul.listapartidos li").removeClass("seleccionado");
         corporacionPactos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 27];
         partidosPactos = [];
         cambiarDatos(myChart, corporacionPactos, 0);
         checkViabilidadPacto(0);
     }
+
     function modoPactos() {
         $(" #paso2 ul.listapartidos li").removeClass("shown");
         $(" #paso1").addClass("off");
@@ -794,6 +812,7 @@ footer .grid-item {
         initPactos();
         setTimeout(function(){ mostrarCajasPartidos(" #paso2 ul.listapartidos li"); }, 300);
     }
+
     function modoCorporacion() {
         GetTotalConcejales();
         $(" #paso1").removeClass("off");
